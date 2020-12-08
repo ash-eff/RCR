@@ -1553,7 +1553,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 4.44
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1621,7 +1621,7 @@ MonoBehaviour:
   m_Follow: {fileID: 75969374}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 9
+    OrthographicSize: 4.44
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -1836,6 +1836,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4634847233601019997, guid: e970d1a9e9bf01840b266e263e3af512,
+        type: 3}
+      propertyPath: grappleRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634847233601019997, guid: e970d1a9e9bf01840b266e263e3af512,
+        type: 3}
+      propertyPath: ropeHingeAnchor
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5762019494532921158, guid: e970d1a9e9bf01840b266e263e3af512,
         type: 3}
       propertyPath: bulletPrefab

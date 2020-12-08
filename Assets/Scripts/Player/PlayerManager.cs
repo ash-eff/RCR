@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour {
 
 	[SerializeField] private CharacterController2D controller;
-	[SerializeField] private Animator animator;
+	//[SerializeField] private Animator animator;
 	
 	private PlayerInputs playerInputs;
 	private Vector2 directionAxis;
@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour {
 	[SerializeField] private bool jump = false;
 	[SerializeField] private bool dash = false;
 	[SerializeField] private bool crawl = false;
-	[SerializeField] private bool standInPlace = false;
+	//[SerializeField] private bool standInPlace = false;
 	[SerializeField] private GameObject playerSprite;						// The Transform that will be flipped for right/left facing
 	
 	private bool facingRight = true;
@@ -43,19 +43,16 @@ public class PlayerManager : MonoBehaviour {
 		playerInputs.Player.Move.canceled += cxt => ResetMovement();
         
 		playerInputs.Player.Jump.performed += cxt => jump = true;
-
-		playerInputs.Player.Stand.performed += cxt => StandInPlace(true);
-		playerInputs.Player.Stand.canceled += cxt => StandInPlace(false);
 	}
 	
 	void Update () 
 	{
-		if(!standInPlace)
+		//if(!standInPlace)
 			horizontalMove = directionAxis.x * runSpeed;
-		else
-			horizontalMove = 0;
+		//else
+			//horizontalMove = 0;
 		
-		animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+		//animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 		
 		// for emergency until ground detection is refined
 		if (Input.GetKeyDown(KeyCode.Y))
@@ -96,7 +93,7 @@ public class PlayerManager : MonoBehaviour {
 		// Move our character
 		controller.Move(horizontalMove * Time.fixedDeltaTime, dash, crawl, jump);
 		if(jump)
-			animator.SetBool("IsJumping", true);
+			//animator.SetBool("IsJumping", true);
 		jump = false;
 		dash = false;
 	}
@@ -115,12 +112,6 @@ public class PlayerManager : MonoBehaviour {
 	
 	private void ResetMovement() => directionAxis = Vector3.zero;
 	
-
-
-	private void StandInPlace(bool b)
-	{
-		standInPlace = b;
-	}
 	public void OnFall()
 	{
 		//animator.SetBool("IsJumping", true);
@@ -129,15 +120,14 @@ public class PlayerManager : MonoBehaviour {
 	public void OnLandEvent()
 	{
 		//Debug.Log("Land");
-		animator.SetBool("IsJumping", false);
+		//animator.SetBool("IsJumping", false);
 
 	}
 	
 	public void OnJumpEvent()
 	{
 		//Debug.Log("Jump");
-		animator.SetBool("IsJumping", true);
-
+		//animator.SetBool("IsJumping", true);
 	}
 
 	public void OnCrouchEvent(bool isCrouching)

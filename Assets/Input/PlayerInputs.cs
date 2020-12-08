@@ -27,6 +27,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Aim"",
+                    ""type"": ""Button"",
+                    ""id"": ""a4618122-52c1-4ce4-a38e-a65ea64246da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Shoot"",
                     ""type"": ""Button"",
                     ""id"": ""d8e07d79-d194-4bbe-a231-bd1efbcc284b"",
@@ -43,7 +51,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Stand"",
+                    ""name"": ""LeftBumper"",
                     ""type"": ""Button"",
                     ""id"": ""3b174bca-999d-4592-bb71-2a544b36e091"",
                     ""expectedControlType"": ""Button"",
@@ -312,9 +320,64 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Stand"",
+                    ""action"": ""LeftBumper"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector Gamepad Right Analogue"",
+                    ""id"": ""cd71a601-9ec9-4f7b-9477-4d0ea9e4eed4"",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""82a106ce-6329-450e-8e67-2039af524b80"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""a99faaa1-8554-4ccb-91e3-f89d2cda1617"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""4f033be6-02c2-4f43-bb72-ec2e823a2404"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""8f0736a6-6c83-43ed-ab2b-d0bd3653cb55"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -347,9 +410,10 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Stand = m_Player.FindAction("Stand", throwIfNotFound: true);
+        m_Player_LeftBumper = m_Player.FindAction("LeftBumper", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -400,17 +464,19 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Stand;
+    private readonly InputAction m_Player_LeftBumper;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
         public PlayerActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Stand => m_Wrapper.m_Player_Stand;
+        public InputAction @LeftBumper => m_Wrapper.m_Player_LeftBumper;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -423,15 +489,18 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Stand.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStand;
-                @Stand.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStand;
-                @Stand.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStand;
+                @LeftBumper.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftBumper;
+                @LeftBumper.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftBumper;
+                @LeftBumper.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftBumper;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -439,15 +508,18 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Stand.started += instance.OnStand;
-                @Stand.performed += instance.OnStand;
-                @Stand.canceled += instance.OnStand;
+                @LeftBumper.started += instance.OnLeftBumper;
+                @LeftBumper.performed += instance.OnLeftBumper;
+                @LeftBumper.canceled += instance.OnLeftBumper;
             }
         }
     }
@@ -473,8 +545,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnStand(InputAction.CallbackContext context);
+        void OnLeftBumper(InputAction.CallbackContext context);
     }
 }

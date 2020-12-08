@@ -31,9 +31,6 @@ public class PlayerAttack : MonoBehaviour
 	    playerInputs = new PlayerInputs();
 
         playerInputs.Player.Move.performed += cxt => SetAim(cxt.ReadValue<Vector2>());
-
-        playerInputs.Player.Shoot.performed += cxt => isShootingPresseed = true;
-        playerInputs.Player.Shoot.canceled += cxt => isShootingPresseed = false;
     }
 
     private void Update()

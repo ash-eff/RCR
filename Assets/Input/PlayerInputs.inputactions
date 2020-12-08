@@ -14,6 +14,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "a4618122-52c1-4ce4-a38e-a65ea64246da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Shoot",
                     "type": "Button",
                     "id": "d8e07d79-d194-4bbe-a231-bd1efbcc284b",
@@ -30,7 +38,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Stand",
+                    "name": "LeftBumper",
                     "type": "Button",
                     "id": "3b174bca-999d-4592-bb71-2a544b36e091",
                     "expectedControlType": "Button",
@@ -299,9 +307,64 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Stand",
+                    "action": "LeftBumper",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector Gamepad Right Analogue",
+                    "id": "cd71a601-9ec9-4f7b-9477-4d0ea9e4eed4",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "82a106ce-6329-450e-8e67-2039af524b80",
+                    "path": "<Gamepad>/rightStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "a99faaa1-8554-4ccb-91e3-f89d2cda1617",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "4f033be6-02c2-4f43-bb72-ec2e823a2404",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "8f0736a6-6c83-43ed-ab2b-d0bd3653cb55",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
