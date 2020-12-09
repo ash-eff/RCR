@@ -7,15 +7,19 @@ using System.Linq;
 public class PlayerGrappleHook : MonoBehaviour
 {
     [SerializeField] private Transform grappleIndicator;
-    [SerializeField] private LineRenderer lr;
-    [SerializeField] private float distModifier;
+    [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float grappleRange;
+    [SerializeField] private Grapple grapple;
+    [SerializeField] private LayerMask whatIsGrappleable;
+
     private Vector2 aimDir;
     private PlayerInputs playerInputs;
-    private Vector3 grapplePoint;
-    public LayerMask whatIsGrappleable;
-    public Transform gunTip;
-    private Vector3 currentGrapplePosition;
+    private Vector2 grapplePoint;
+    private Vector2 currentGrapplePosition;
+    [SerializeField] private float grappleTime;
+    [SerializeField] private bool canGrapple = true;
+    [SerializeField] private bool goingOut = false;
+    [SerializeField] private bool comingIn = false;
 
     private void OnEnable()
     {
@@ -36,8 +40,8 @@ public class PlayerGrappleHook : MonoBehaviour
         playerInputs.Player.Aim.performed += cxt => SetAim(cxt.ReadValue<Vector2>());
         playerInputs.Player.LeftBumper.performed += cxt => ActivateIndicator(true);
         playerInputs.Player.LeftBumper.canceled += cxt => ActivateIndicator(false);
-        playerInputs.Player.Shoot.performed += cxt => StartGrapple();
-        playerInputs.Player.Shoot.canceled += cxt => StopGrapple();
+        playerInputs.Player.Grapple.performed += cxt => StartGrapple();
+        //playerInputs.Player.Shoot.canceled += cxt => StopGrapple();
     }
 
     // Update is called once per frame
@@ -46,12 +50,11 @@ public class PlayerGrappleHook : MonoBehaviour
         if (aimDir == Vector2.zero)
             aimDir = transform.right;
         
-        
         SetIndicatorDirection(aimDir);
     }
     
     void LateUpdate() {
-        DrawRope();
+        //DrawRope();
     }
     
     private void SetIndicatorDirection(Vector2 aim)
@@ -72,33 +75,67 @@ public class PlayerGrappleHook : MonoBehaviour
     
     void StartGrapple()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, aimDir, grappleRange, whatIsGrappleable);
-        if (hit) {
-            grapplePoint = hit.point;
-        }
-        else
+        if (canGrapple)
         {
-            grapplePoint = (Vector2)transform.position + aimDir * grappleRange;
+            canGrapple = false;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, aimDir.normalized, grappleRange, whatIsGrappleable);
+            if (hit) {
+                grapplePoint = hit.point;
+                Debug.DrawLine(transform.position, grapplePoint, Color.red, 5f);
+            }
+            else
+            {
+                grapplePoint = (Vector2)transform.position + aimDir.normalized * grappleRange;
+                Debug.DrawLine(transform.position, grapplePoint, Color.blue, 5f);
+            }
+
+            StartCoroutine(ShootGrapple(grapplePoint));
+        }
+    }
+
+    IEnumerator ShootGrapple(Vector2 grappleLocation)
+    {
+        var rot = MyUtils.GetAngleFromVectorFloat(grappleLocation - (Vector2) transform.position);
+        grapple.transform.rotation = Quaternion.Euler(0,0, rot);
+        grapple.gameObject.SetActive(true);
+        lineRenderer.positionCount = 2;
+        var grappleStartPos = grapple.transform.position;
+        currentGrapplePosition = grappleStartPos;
+        float elapsedTime = 0;
+        goingOut = true;
+        while (elapsedTime < grappleTime)
+        {
+            currentGrapplePosition = Vector2.Lerp(currentGrapplePosition, grappleLocation, elapsedTime / grappleTime);
+            grapple.transform.position = Vector2.Lerp(grapple.transform.position, grappleLocation, elapsedTime / grappleTime);
+            elapsedTime += Time.deltaTime;
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, currentGrapplePosition);
+
+            yield return new WaitForEndOfFrame();
+        }
+        grapple.CheckObjectForGrapple();
+        elapsedTime = 0;
+        goingOut = false;
+        comingIn = true;
+        while (elapsedTime < grappleTime)
+        {
+            currentGrapplePosition = Vector2.Lerp(currentGrapplePosition, grappleStartPos, elapsedTime / grappleTime);
+            grapple.transform.position = Vector2.Lerp(grapple.transform.position, grappleStartPos, elapsedTime / grappleTime);
+            elapsedTime += Time.deltaTime;
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, currentGrapplePosition);
+
+            yield return new WaitForEndOfFrame();
         }
         
-        
-        
-        lr.positionCount = 2;
-        currentGrapplePosition = gunTip.position;
-        Debug.DrawLine(currentGrapplePosition, grapplePoint);
+        grapple.StopGrapple();
+        grapple.gameObject.SetActive(false);
+        comingIn = false;
+        StopGrapple();
+        canGrapple = true;
     }
     
     void StopGrapple() {
-        lr.positionCount = 0;
-    }
-    
-    void DrawRope() {
-        //If not grappling, don't draw rope
-        if (lr.positionCount == 0) return;
-
-        currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, grapplePoint, Time.deltaTime * 8f);
-        
-        lr.SetPosition(0, gunTip.position);
-        lr.SetPosition(1, currentGrapplePosition);
+        lineRenderer.positionCount = 0;
     }
 }

@@ -30,6 +30,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Grapple",
+                    "type": "Button",
+                    "id": "e31f5c29-2faf-40d1-bbc0-7be50f5651e7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "79f74ee3-31a1-479f-91bc-e7716b3662ea",
@@ -365,6 +373,17 @@
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "ab0be42f-6868-4cfb-8622-653f43ca0f53",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Grapple",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
