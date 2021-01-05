@@ -30,25 +30,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Grapple",
-                    "type": "Button",
-                    "id": "e31f5c29-2faf-40d1-bbc0-7be50f5651e7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Jump",
+                    "name": "Reload",
                     "type": "Button",
                     "id": "79f74ee3-31a1-479f-91bc-e7716b3662ea",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "LeftBumper",
-                    "type": "Button",
-                    "id": "3b174bca-999d-4592-bb71-2a544b36e091",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -58,7 +42,7 @@
                 {
                     "name": "",
                     "id": "d2435e53-10de-4e44-8e65-5c19a39dc7a4",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -69,22 +53,11 @@
                 {
                     "name": "",
                     "id": "4d671bf8-3150-4089-bae1-e458d75bedea",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f92246e7-03a4-4b3f-8eb8-13170517466b",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Jump",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -309,17 +282,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "53253629-af7c-473b-8a47-c28c8f1065e5",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "LeftBumper",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "2D Vector Gamepad Right Analogue",
                     "id": "cd71a601-9ec9-4f7b-9477-4d0ea9e4eed4",
                     "path": "2DVector(mode=2)",
@@ -373,17 +335,6 @@
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "ab0be42f-6868-4cfb-8622-653f43ca0f53",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Grapple",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }

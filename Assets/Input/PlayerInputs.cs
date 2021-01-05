@@ -43,25 +43,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Grapple"",
-                    ""type"": ""Button"",
-                    ""id"": ""e31f5c29-2faf-40d1-bbc0-7be50f5651e7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Jump"",
+                    ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""79f74ee3-31a1-479f-91bc-e7716b3662ea"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""LeftBumper"",
-                    ""type"": ""Button"",
-                    ""id"": ""3b174bca-999d-4592-bb71-2a544b36e091"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -71,7 +55,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d2435e53-10de-4e44-8e65-5c19a39dc7a4"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -82,22 +66,11 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4d671bf8-3150-4089-bae1-e458d75bedea"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f92246e7-03a4-4b3f-8eb8-13170517466b"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Jump"",
+                    ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -322,17 +295,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""53253629-af7c-473b-8a47-c28c8f1065e5"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""LeftBumper"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""2D Vector Gamepad Right Analogue"",
                     ""id"": ""cd71a601-9ec9-4f7b-9477-4d0ea9e4eed4"",
                     ""path"": ""2DVector(mode=2)"",
@@ -386,17 +348,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ab0be42f-6868-4cfb-8622-653f43ca0f53"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Grapple"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -431,9 +382,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
-        m_Player_Grapple = m_Player.FindAction("Grapple", throwIfNotFound: true);
-        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_LeftBumper = m_Player.FindAction("LeftBumper", throwIfNotFound: true);
+        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -486,9 +435,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Shoot;
-    private readonly InputAction m_Player_Grapple;
-    private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_LeftBumper;
+    private readonly InputAction m_Player_Reload;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -496,9 +443,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
-        public InputAction @Grapple => m_Wrapper.m_Player_Grapple;
-        public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @LeftBumper => m_Wrapper.m_Player_LeftBumper;
+        public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -517,15 +462,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
-                @Grapple.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrapple;
-                @Grapple.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrapple;
-                @Grapple.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrapple;
-                @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @LeftBumper.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftBumper;
-                @LeftBumper.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftBumper;
-                @LeftBumper.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftBumper;
+                @Reload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -539,15 +478,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
-                @Grapple.started += instance.OnGrapple;
-                @Grapple.performed += instance.OnGrapple;
-                @Grapple.canceled += instance.OnGrapple;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
-                @LeftBumper.started += instance.OnLeftBumper;
-                @LeftBumper.performed += instance.OnLeftBumper;
-                @LeftBumper.canceled += instance.OnLeftBumper;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
@@ -575,8 +508,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
-        void OnGrapple(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
-        void OnLeftBumper(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
 }
