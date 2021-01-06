@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9907e4ec8209946a308abc6d402703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigidbody2D: {fileID: 0}
   player: {fileID: 0}
   maxRadius: 6
   minRadius: 4
@@ -56,6 +57,7 @@ MonoBehaviour:
   rateOfFire: 0.5
   ammoAmount: 6
   reloadUI: {fileID: 3837507479476967592}
+  moveSpeed: 5
 --- !u!1 &3038402101569680428
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour
 		//var dir = mousePos - transform.position;
 		//var rotation = MyUtils.GetAngleFromVector(dir);
 		//weapon.transform.rotation = Quaternion.Euler(0,0,rot);
-		controller.Flip(cursor.AimDirection.x);
+		controller.Flip(cursor.GetNonZeroDirection.x);
 		anim.SetFloat("xDir", Mathf.Abs(directionAxis.x));
 	}
 

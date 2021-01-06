@@ -16,14 +16,17 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private Animator weaponAnim;
     [SerializeField] private Transform gunTransform;
     [SerializeField] private GameObject reloadUI;
+    [SerializeField] private SpriteRenderer gunSpr;
     [SerializeField] private float lastShot = 0;
     [SerializeField] private float rateOfFire;
     [SerializeField] private int ammoAmount;
     [SerializeField] private Image ammoImage;
+    [SerializeField] private CameraController camController;
     private int maxAmmo;
     private bool isReloading = false;
     [SerializeField] private Sprite[] ammoSprites;
     private float shakeTimer;
+    private Vector2 weaponPosition;
     private PlayerCursor cursor;
     public bool isFiring;
     [SerializeField] private CinemachineVirtualCamera cine;
@@ -41,9 +44,10 @@ public class PlayerWeapon : MonoBehaviour
     
     private void Awake()
     {
+        camController = FindObjectOfType<CameraController>();
         maxAmmo = ammoAmount;
         ammoImage.sprite = ammoSprites[ammoAmount];
-        
+        weaponPosition = gunTransform.localPosition;
         cursor = GetComponent<PlayerCursor>();
         playerInputs = new PlayerInputs();
         playerInputs.Player.Shoot.performed += cxt => isFiring = true;
@@ -55,16 +59,19 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Update()
     {
-        var direction = cursor.GetCursorPosition - transform.position;
+        var direction = cursor.GetNonZeroDirection;
         var rot = MyUtils.GetAngleFromVectorFloat(direction.normalized);
-        FlipWeapon(cursor.AimDirection.x);
+
+        PositionWeapon(direction.normalized.x, rot);
 
         gunTransform.rotation = Quaternion.Euler(0,0,rot);
         
         if (isFiring && Time.time > rateOfFire + lastShot && ammoAmount > 0)
         {
-            FireWeapon(direction, rot);
-            ShakeCamera(.2f, .15f);
+            //FireWeapon(direction, rot);
+            FireWeapon(direction.normalized, rot);
+
+            camController.CameraShake();
         }
 
         if (ammoAmount <= 0 && !isReloading)
@@ -137,22 +144,29 @@ public class PlayerWeapon : MonoBehaviour
         }
     }
     
-    private void FlipWeapon(float xDir)
+    private void PositionWeapon(float xDir, float rot)
     {
         if (xDir > 0)
+        {
+            gunTransform.localPosition = new Vector3(weaponPosition.x, weaponPosition.y, 0f);
             gunTransform.localScale = new Vector3(1, 1, 1);
+        }
+
 
         if (xDir < 0)
+        {
+            gunTransform.localPosition = new Vector3(-weaponPosition.x, weaponPosition.y, 0f);
             gunTransform.localScale = new Vector3(1, -1, 1);
-    }
+        }
 
-    void ShakeCamera(float _intensity, float _time)
-    {
-        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
-            cine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = _intensity;
-        shakeTimer = _time;
+        if (rot > 0f && rot < 180f)
+        {
+            gunSpr.sortingOrder = 3;
+        }
+        else
+        {
+            gunSpr.sortingOrder = 5;
+        }
+            
     }
-    
 }

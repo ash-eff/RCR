@@ -3,19 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using Ash.MyUtils;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerCursor : MonoBehaviour
 {
     [SerializeField] private float cursorRadius;
     [SerializeField] private Transform cursor;
-    [Range(1, 10)][SerializeField] private int sensitivity;
+    [SerializeField] private SpriteRenderer cursorSprite;
     private PlayerInputs playerInputs;
-    public Vector2 aimDirection;
-    public Vector3 modifiedAim;
+    private Vector3 aimDirection;
+    private Vector3 nonZeroDirection;
 
-    public Vector2 AimDirection => aimDirection;
-    public Vector3 GetCursorPosition => cursor.position;
-    
+    public Vector3 GetAimDirection => aimDirection;
+    public Vector3 GetNonZeroDirection => nonZeroDirection.normalized;
+    public Vector3 GetAimPosition => nonZeroDirection.normalized * cursorRadius;
+
     private void OnEnable()
     {
         playerInputs.Enable();
@@ -31,31 +33,44 @@ public class PlayerCursor : MonoBehaviour
         playerInputs = new PlayerInputs();
         playerInputs.Player.Aim.performed += cxt => SetAimDirection(cxt.ReadValue<Vector2>());
         playerInputs.Player.Aim.canceled += cxt => ResetAimDirection();
-
+        cursorSprite.enabled = false;
+        nonZeroDirection = Vector3.right;
         Cursor.visible = false;
     }
 
     private void Update()
     {
+        // for controller
         CursorPosition();
+        
+        // for mouse
+        //MousePosition();
     }
 
     private void CursorPosition()
     {
-        modifiedAim = (Vector3) aimDirection / sensitivity;
-        var currentPos = cursor.position += modifiedAim;
-        //Vector2 mousePos = Camera.main.ScreenToWorldPoint(currentPos);
+        if (aimDirection != Vector3.zero)
+        {
+            nonZeroDirection = aimDirection;
+        }
+        
+        cursor.position = transform.position + GetAimPosition;
+    }
+
+    private void MousePosition()
+    {
         Vector2 originPos = transform.position;
-        float distance = MyUtils.DistanceBetweenObjects(originPos, currentPos);
+        float distance = MyUtils.DistanceBetweenObjects(originPos, GetAimDirection);
+
         if (distance > cursorRadius)
         {
-            Vector2 clampedToRad = MyUtils.Direction2D(originPos, currentPos);
+            Vector2 clampedToRad = MyUtils.Direction2D(originPos, GetAimDirection);
             clampedToRad *= cursorRadius / distance;
             cursor.position = transform.position + MyUtils.Vec2DTo3D(clampedToRad);
         }
         else
         {
-            cursor.position = currentPos;
+            cursor.position = GetAimDirection;
         }
     }
 

@@ -17,19 +17,30 @@ public class EnemyIdleState : State<EnemyHandler>
     public override void UpdateState(EnemyHandler enemy)
     {
         var dist = enemy.CheckDistanceToPlayer();
+        
         // check if player is in enemies radius
         if (dist <= enemy.GetMaxRadius)
         {
-            // enemy needs to move if player outside of min radius
-            
-            // and shoot if inside of min radius
-            enemy.stateMachine.ChangeState(enemy.enemyShootState);
-            
-            // also need to check if player is in line of sight
+            // can the player be seen?
+            if (enemy.CheckLineOfSightToPlayer())
+            {
+                // is the player in shoot range?
+                if (dist < enemy.GetMinRadius)
+                {
+                    // shoot
+                    enemy.stateMachine.ChangeState(enemy.enemyShootState);
+                }
+                else 
+                {
+                    // move into shoot range
+                    enemy.stateMachine.ChangeState(enemy.enemyMoveState);
+                }
+            }
+            else
+            {
+                // stay in idle
+            }
         }
-        
-        // while no player is in radius or line of sight
-        // move to a valid random spot close by and wait a few seconds
     }
 
     public override void FixedUpdateState(EnemyHandler enemy)

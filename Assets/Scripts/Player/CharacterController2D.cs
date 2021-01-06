@@ -29,9 +29,9 @@ public class CharacterController2D : MonoBehaviour
 	public void Flip(float xDir)
 	{
 		if (xDir > 0)
-			spr.flipX = false;
+			spr.transform.localScale = new Vector3(1,1,1);
 
 		if (xDir < 0)
-			spr.flipX = true;
+			spr.transform.localScale = new Vector3(-1,1,1);
 	}
 }

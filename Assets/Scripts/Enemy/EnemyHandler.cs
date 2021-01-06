@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class EnemyHandler : MonoBehaviour
 {
+    [SerializeField] private Rigidbody2D rigidbody2D;
     [SerializeField] private PlayerManager player;
     [SerializeField] private float maxRadius;
     [SerializeField] private float minRadius;
@@ -17,17 +18,26 @@ public class EnemyHandler : MonoBehaviour
     [SerializeField] private float rateOfFire;
     [SerializeField] private int ammoAmount;
     [SerializeField] private GameObject reloadUI;
+    public float moveSpeed;
 
     private int maxAmmo;
     private bool isReloading = false;
+    private bool isShooting = false;
 
     [NonSerialized] public readonly EnemyIdleState enemyIdleState = new EnemyIdleState();
     [NonSerialized] public readonly EnemyShootState enemyShootState = new EnemyShootState();
+    [NonSerialized] public readonly EnemyMoveState enemyMoveState = new EnemyMoveState();
 
     public float GetMaxRadius => maxRadius;
     public float GetMinRadius => minRadius;
 
     public bool IsReloading => isReloading;
+
+    public bool IsShooting
+    {
+        get => isShooting;
+        set => isShooting = value;
+    }
 
     public float GetRateOfFire => rateOfFire;
     public float GetLastShot => lastShot;
@@ -52,25 +62,13 @@ public class EnemyHandler : MonoBehaviour
     private void Update() => stateMachine.Update();
     private void FixedUpdate() => stateMachine.FixedUpdate();
 
-    //check line of sight
-    //check distance to player
-    //if in large radius, move to shoot
-    //if in small radius, shoot
-    //repeat
-    
-    // if shot first, shoot
-    
-    //move
-
-    //shoot
-
     //takedamage
 
     //die
     
     public bool CheckLineOfSightToPlayer()
     {
-        var dir = player.transform.position - transform.position;
+        var dir = GetPlayerPosition - transform.position;
        
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir.normalized, dir.magnitude, visionLayers);
        
@@ -98,7 +96,7 @@ public class EnemyHandler : MonoBehaviour
     public void FireWeapon(Vector3 dir, float rot)
     {
         UpdateAmmo();
-        var offset = Random.Range(-6, 6);
+        var offset = Random.Range(-12, 12);
         rot += offset;
         //Instantiate(shellPrefab, startPosition, quaternion.identity);
         Instantiate(projectilePrefab, transform.position, Quaternion.Euler(0, 0, rot));
@@ -135,6 +133,11 @@ public class EnemyHandler : MonoBehaviour
         {
             ammoAmount--;
         }
+    }
+    
+    public void Move(Vector2 velocity)
+    {
+        rigidbody2D.MovePosition(rigidbody2D.position + velocity * Time.fixedDeltaTime);
     }
 
     private void OnDrawGizmos()
