@@ -9,11 +9,11 @@ public class RoomManager : MonoBehaviour
     [SerializeField] private Color fogOpaque;
     [SerializeField] private Color fogHalfOpaque;
     [SerializeField] private Color fogTransparent;
-    [SerializeField] private MapRoom currentRoom;
-    [SerializeField] private MapRoom lastRoom;
+    [SerializeField] private BaseRoom currentRoom;
+    [SerializeField] private BaseRoom lastRoom;
 
 
-    public MapRoom CurrentRoom
+    public BaseRoom CurrentRoom
     {
         get => currentRoom;
         set
@@ -21,7 +21,8 @@ public class RoomManager : MonoBehaviour
             if (currentRoom != null)
             {
                 lastRoom = currentRoom;
-                StartCoroutine(ChangeColor(lastRoom.fogTiles, fogTransparent, fogHalfOpaque));
+                lastRoom.DisableRoomTrigger(false);
+                StartCoroutine(ChangeColor(lastRoom.Fog, fogTransparent, fogHalfOpaque));
             }
             else
             {
@@ -32,15 +33,19 @@ public class RoomManager : MonoBehaviour
             
             if (currentRoom.hasBeenVisited)
             {
-                StartCoroutine(ChangeColor(currentRoom.fogTiles, fogHalfOpaque, fogTransparent));
+                StartCoroutine(ChangeColor(currentRoom.Fog, fogHalfOpaque, fogTransparent));
+                currentRoom.UnlockDoors(true, true, true, true );
 
             }
             else
             {
-                StartCoroutine(ChangeColor(currentRoom.fogTiles, fogOpaque, fogTransparent));
+                StartCoroutine(ChangeColor(currentRoom.Fog, fogOpaque, fogTransparent));
+                currentRoom.UnlockDoors(false, false, false, false );
+                currentRoom.EnableMinimap();
             }
 
             currentRoom.hasBeenVisited = true;
+            currentRoom.DisableRoomTrigger(true);
         } 
     }
 
@@ -54,7 +59,7 @@ public class RoomManager : MonoBehaviour
 
         while (currentTime < duration)
         {
-            currentTime += Time.deltaTime / duration;
+            currentTime += Time.deltaTime;
             var currentAlpha = Mathf.Lerp(startAlpha, endAlpha, currentTime);
             currentColor = new Color(fromColor.r, fromColor.g, fromColor.b, currentAlpha);
             _tileMap.color = currentColor;

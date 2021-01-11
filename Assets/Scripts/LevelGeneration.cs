@@ -13,7 +13,7 @@ public class LevelGeneration : MonoBehaviour
     private Room[,] rooms;
     private List<Vector2> takenPositions = new List<Vector2>();
     [SerializeField] private int gridSizeX, gridSizeY, numberOfRooms = 20;
-    [SerializeField] private GameObject roomWhiteObj;
+    [SerializeField] private GameObject baseRoomObj;
     [SerializeField] private RoomManager roomManager;
 
     private void Start()
@@ -150,24 +150,25 @@ public class LevelGeneration : MonoBehaviour
 			}
 			
 			Vector2 drawPos = room.gridPos;
-			drawPos.x *= 26;//aspect ratio of map sprite
-			drawPos.y *= 26;
+			drawPos.x *= 22;//aspect ratio of map sprite
+			drawPos.y *= 22;
 			//create map obj and assign its variables
-			MapRoom mapper = Object.Instantiate(roomWhiteObj, drawPos, Quaternion.identity).GetComponent<MapRoom>();
+			BaseRoom baseRoom = Object.Instantiate(baseRoomObj, drawPos, Quaternion.identity).GetComponent<BaseRoom>();
 
 			if (drawPos == Vector2.zero)
 			{
-				roomManager.CurrentRoom = mapper;
+				roomManager.CurrentRoom = baseRoom;
 				//SpriteRenderer icon = roomManager.CurrentRoom.transform.Find("RoomMinimapIcon").gameObject.GetComponent<SpriteRenderer>();
 				//icon.enabled = true;
-				mapper.hasBeenVisited = true;
+				baseRoom.UnlockDoors(false, false, false, false );
+				baseRoom.hasBeenVisited = true;
 			}
 			
-			mapper.type = room.type;
-			mapper.up = room.doorTop;
-			mapper.down = room.doorBottom;
-			mapper.right = room.doorRight;
-			mapper.left = room.doorLeft;
+			//baseRoom.UnlockDoors(true, true, true, true );
+			baseRoom.top = room.doorTop;
+			baseRoom.bottom = room.doorBottom;
+			baseRoom.right = room.doorRight;
+			baseRoom.left = room.doorLeft;
 			//mapper.gameObject.transform.parent = mapRoot;
 		}
 	}
