@@ -7,16 +7,16 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float lerpSpeed, shakeDuration, shakeMagnitude;
     [SerializeField] private bool followPlayer;
     [SerializeField] private Camera mainCam;
-    [SerializeField] private PlayerManager player;
+    [SerializeField] private Transform player;
     [SerializeField] private Vector3 targetPos;
 
     private void Awake()
     {
-        player = FindObjectOfType<PlayerManager>();
+        //player = FindObjectOfType<PlayerManager>();
         //playerCursorPos = player.GetCursorPos;
-        if (followPlayer)
+        if (followPlayer && player != null)
         {
-           transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
+           transform.position = new Vector3(player.position.x, player.position.y, -10f);
         }
     }
 
@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour
             //{
             //    return;
             //}
-            FollowPlayerTarget(player.transform.position);
+            FollowPlayerTarget(player.position);
         }
     }
 

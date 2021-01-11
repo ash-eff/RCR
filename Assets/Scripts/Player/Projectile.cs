@@ -6,6 +6,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] public float destroyAfter;
+    [SerializeField] private GameObject impactPrefab;
     [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private float speed;
     [SerializeField] private Rigidbody2D rb2d;
@@ -28,23 +29,17 @@ public class Projectile : MonoBehaviour
         spr.color = Color.Lerp(A, B, Mathf.PingPong(Time.time * lerpSpeed, 1.0f));
     }
 
-    //private void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (other.gameObject.layer == 8)
-    //    {
-    //        Destroy(gameObject);
-    //        GameObject obj = Instantiate(shotFromWeapon.impactPrefab, transform.position, quaternion.identity);
-    //        Destroy(obj, .15f );
-    //    }
-//
-    //    if (other.gameObject.layer == 11)
-    //    {
-    //        Destroy(gameObject);
-    //        other.GetComponent<Dummy>().Hit(shotFromWeapon.damage);
-    //        GameObject obj = Instantiate(shotFromWeapon.impactPrefab, other.transform.position, quaternion.identity);
-    //        Destroy(obj, .15f );
-    //    }
-    //}
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        
+        // 8 is the obstacle layer
+        if (other.gameObject.layer == 8)
+        {
+            GameObject obj = Instantiate(impactPrefab, transform.position, quaternion.identity);
+            Destroy(obj, .2f );
+            Destroy(gameObject);
+        }
+    }
 
 
 }

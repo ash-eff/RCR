@@ -13,6 +13,7 @@ public class PlayerWeapon : MonoBehaviour
 {
     [SerializeField] private Transform muzzlePosition;
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject casingPrefab;
     [SerializeField] private Animator weaponAnim;
     [SerializeField] private Transform gunTransform;
     [SerializeField] private GameObject reloadUI;
@@ -59,13 +60,13 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Update()
     {
-        var direction = cursor.GetNonZeroDirection;
+        var direction = cursor.GetCursorDirection;
         var rot = MyUtils.GetAngleFromVectorFloat(direction.normalized);
 
         PositionWeapon(direction.normalized.x, rot);
 
         gunTransform.rotation = Quaternion.Euler(0,0,rot);
-        
+
         if (isFiring && Time.time > rateOfFire + lastShot && ammoAmount > 0)
         {
             //FireWeapon(direction, rot);
@@ -106,7 +107,7 @@ public class PlayerWeapon : MonoBehaviour
         Debug.DrawRay(muzzlePosition.position,dir.normalized * 6, Color.blue, .5f);
         var offset = Random.Range(-4, 4);
         rot += offset;
-        //Instantiate(shellPrefab, startPosition, quaternion.identity);
+        Instantiate(casingPrefab, transform.position, Quaternion.identity);
         Instantiate(projectilePrefab, muzzlePosition.position, Quaternion.Euler(0, 0, rot));
         //shakeTimer = .25f;
         lastShot = Time.time;
