@@ -7,15 +7,15 @@ using UnityEngine.Rendering;
 
 public class PlayerCursor : MonoBehaviour
 {
-    [SerializeField] private bool cameraLookOn = true;
     [SerializeField] private float cursorRadius;
-    [SerializeField] private Transform camFollowPoint;
     [SerializeField] private Transform cursor;
     [SerializeField] private SpriteRenderer cursorSprite;
     [Range(.1f, 1f)] [SerializeField] private float cursorSensitivity;
+    [SerializeField] private Vector2 edgeOffset;
     private PlayerInputs playerInputs;
     private Vector3 aimDirection;
     private Vector3 cursorDirection;
+    private Vector3 screenBounds;
 
     //public Vector3 GetAimDirection => aimDirection;
     public Vector3 GetCursorDirection => cursorDirection.normalized;
@@ -34,22 +34,21 @@ public class PlayerCursor : MonoBehaviour
     private void Awake()
     {
         playerInputs = new PlayerInputs();
-        playerInputs.Player.Aim.performed += cxt => SetAimDirection(cxt.ReadValue<Vector2>());
-        playerInputs.Player.Aim.canceled += cxt => ResetAimDirection();
-        cursorSprite.enabled = false;
+        //playerInputs.Player.Aim.performed += cxt => SetAimDirection(cxt.ReadValue<Vector2>());
+        //playerInputs.Player.Aim.canceled += cxt => ResetAimDirection();
+        //cursorSprite.enabled = false;
         cursorDirection = Vector3.right;
-        Cursor.visible = false;
+        //Cursor.visible = false;
+        UpdateScreenBounds();
     }
 
     private void Update()
     {
         // for controller
-        CursorPosition();
+        //CursorPosition();
 
         // for mouse
-        //MousePosition();
-        
-        CameraFollowPosition();
+        MousePosition();
     }
 
     private void CursorPosition()
@@ -72,44 +71,28 @@ public class PlayerCursor : MonoBehaviour
 
         cursorDirection = cursor.position - originPos;
     }
-
-    private void CameraFollowPosition()
-    {
-        if (cameraLookOn)
-        {
-            var originPos = transform.position;
-            var maxPosition = aimDirection * cursorRadius / 2;
-        
-            if (aimDirection != Vector3.zero)
-            {
-                camFollowPoint.position = originPos + maxPosition;
-            }
-            else
-            {
-                camFollowPoint.position = originPos;
-            }
-        }
-        else
-        {
-            camFollowPoint.position = transform.position;
-        }
-    }
+    
 
     private void MousePosition()
     {
-        Vector2 originPos = transform.position;
-        float distance = MyUtils.DistanceBetweenObjects(originPos, aimDirection);
+        var originPos = transform.position;
+        var mousePos = MyUtils.GetMouseWorldPosition();
+        aimDirection = mousePos - originPos;
+        cursor.position = mousePos;
+        cursorDirection = aimDirection;
 
-        if (distance > cursorRadius)
-        {
-            Vector2 clampedToRad = MyUtils.Direction2D(originPos, aimDirection);
-            clampedToRad *= cursorRadius / distance;
-            cursor.position = transform.position + MyUtils.Vec2DTo3D(clampedToRad);
-        }
-        else
-        {
-            cursor.position = aimDirection;
-        }
+        Vector2 clampedPos = cursor.position;
+        clampedPos.x = Mathf.Clamp(cursor.position.x, originPos.x - screenBounds.x, originPos.x + screenBounds.x);
+        clampedPos.y = Mathf.Clamp(cursor.position.y, originPos.y - screenBounds.y, originPos.y + screenBounds.y);
+        cursor.position = clampedPos;
+    }
+
+    private void UpdateScreenBounds()
+    {
+        Camera cam = Camera.main;
+        float height = 2f * cam.orthographicSize;
+        float width = height * cam.aspect;
+        screenBounds = new Vector2((width / 2) + edgeOffset.x, (height / 2) + edgeOffset.y);
     }
 
     private void SetAimDirection(Vector2 pos) => aimDirection = pos;

@@ -7,13 +7,9 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] public float destroyAfter;
     [SerializeField] private GameObject impactPrefab;
-    [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private float speed;
     [SerializeField] private Rigidbody2D rb2d;
     [SerializeField] private SpriteRenderer spr;
-    [SerializeField] private Color A = Color.magenta;
-    [SerializeField] private Color B = Color.blue;
-    [SerializeField] private float lerpSpeed = 1.0f;
 
     public Weapon shotFromWeapon;
     public float delayTime;
@@ -24,11 +20,6 @@ public class Projectile : MonoBehaviour
         rb2d.velocity = transform.right * speed;
     }
     
-    void Update()
-    {
-        spr.color = Color.Lerp(A, B, Mathf.PingPong(Time.time * lerpSpeed, 1.0f));
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         
@@ -36,7 +27,7 @@ public class Projectile : MonoBehaviour
         if (other.gameObject.layer == 8)
         {
             GameObject obj = Instantiate(impactPrefab, transform.position, quaternion.identity);
-            Destroy(obj, .2f );
+            Destroy(obj, .5f );
             Destroy(gameObject);
         }
     }

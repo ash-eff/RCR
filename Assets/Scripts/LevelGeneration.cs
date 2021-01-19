@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEditor.Scripting;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class LevelGeneration : MonoBehaviour
@@ -15,6 +11,12 @@ public class LevelGeneration : MonoBehaviour
     [SerializeField] private int gridSizeX, gridSizeY, numberOfRooms = 20;
     [SerializeField] private GameObject baseRoomObj;
     [SerializeField] private RoomManager roomManager;
+    [SerializeField] private GameManager gameManager;
+
+    private void Awake()
+    {
+	    gameManager = FindObjectOfType<GameManager>();
+    }
 
     private void Start()
     {
@@ -153,23 +155,22 @@ public class LevelGeneration : MonoBehaviour
 			drawPos.x *= 22;//aspect ratio of map sprite
 			drawPos.y *= 22;
 			//create map obj and assign its variables
-			BaseRoom baseRoom = Object.Instantiate(baseRoomObj, drawPos, Quaternion.identity).GetComponent<BaseRoom>();
+			BaseRoom baseRoom = Instantiate(baseRoomObj, drawPos, Quaternion.identity).GetComponent<BaseRoom>();
 
 			if (drawPos == Vector2.zero)
 			{
 				roomManager.CurrentRoom = baseRoom;
-				//SpriteRenderer icon = roomManager.CurrentRoom.transform.Find("RoomMinimapIcon").gameObject.GetComponent<SpriteRenderer>();
-				//icon.enabled = true;
-				baseRoom.UnlockDoors(false, false, false, false );
+				baseRoom.UnlockDoors(true, true, true, true);
 				baseRoom.hasBeenVisited = true;
 			}
-			
-			//baseRoom.UnlockDoors(true, true, true, true );
+			else
+			{
+				gameManager.numberOfRoomsToUnlock++;
+			}
 			baseRoom.top = room.doorTop;
 			baseRoom.bottom = room.doorBottom;
 			baseRoom.right = room.doorRight;
 			baseRoom.left = room.doorLeft;
-			//mapper.gameObject.transform.parent = mapRoot;
 		}
 	}
 	void SetRoomDoors(){

@@ -13,7 +13,11 @@ public class BaseRoom : MonoBehaviour
     [SerializeField] private GameObject topWall, rightWall, bottomWall, leftWall;
     [SerializeField] private GameObject fog;
     [SerializeField] private SpriteRenderer spr;
-    public Sprite[] minimapIcons;
+    [SerializeField] private GameObject enemySpawnPrefab;
+    [SerializeField] private GameObject roomKey;
+    [SerializeField] private AudioSource doorAudio;
+    private GameManager gameManager;
+    public Sprite[] minimapIcons; 
     private RoomManager roomManager;
     public bool top, right, bottom, left;
     public bool hasBeenVisited;
@@ -23,6 +27,7 @@ public class BaseRoom : MonoBehaviour
     
     private void Awake()
     {
+        gameManager = FindObjectOfType<GameManager>();
         fog.SetActive(true);
         roomManager = FindObjectOfType<RoomManager>();
     }
@@ -52,6 +57,9 @@ public class BaseRoom : MonoBehaviour
 
     public void UnlockDoors(bool top, bool right, bool bottom, bool left)
     {
+        if(!hasBeenVisited)
+            doorAudio.Play();
+
         topDoorSprite.SetActive(!top);
         rightDoorSprite.SetActive(!right);
         bottomDoorSprite.SetActive(!bottom);
@@ -117,11 +125,28 @@ public class BaseRoom : MonoBehaviour
             spr.sprite = minimapIcons[14];
         }
     }
+
+    private void SpawnEnemy()
+    {
+        GameObject enemy = Instantiate(enemySpawnPrefab, transform.position, Quaternion.identity);
+        enemy.GetComponent<EnemySpawn>().spawnedFrom = this;
+    }
+
+    public void SpawnKey()
+    {
+        roomKey.SetActive(true);
+        gameManager.RoomUnlocked();
+    }
     
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("PlayerRoomTrigger"))
         {
+            if (!hasBeenVisited)
+            {
+                Invoke("SpawnEnemy", 1f);
+            }
+            
             roomManager.CurrentRoom = this;
         }
     }

@@ -1,58 +1,48 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private float lerpSpeed, shakeDuration, shakeMagnitude;
-    [SerializeField] private bool followPlayer;
     [SerializeField] private Camera mainCam;
-    [SerializeField] private Transform player;
-    [SerializeField] private Vector3 targetPos;
 
-    private void Awake()
-    {
-        //player = FindObjectOfType<PlayerManager>();
-        //playerCursorPos = player.GetCursorPos;
-        if (followPlayer && player != null)
-        {
-           transform.position = new Vector3(player.position.x, player.position.y, -10f);
-        }
-    }
+    [SerializeField] private PlayerManager player;
+    //private Vector3 targetPos;
+    //[SerializeField] private List<Transform> targets;
 
     private void FixedUpdate()
     {
-        if (followPlayer)
-        {
-            //if (gameController.IsGameOver)
-            //{
-            //    return;
-            //}
-            FollowPlayerTarget(player.position);
-        }
+        //Vector3 centerPoint = GetCenterPoint();
+        FollowTarget(player.transform.position);
     }
 
-    public void ResetCamera()
-    {
-        transform.position = player.transform.position;
-    }
-
-    void FollowPlayerTarget(Vector3 _target)
-    {
-        //targetPos = new Vector3(_target.x, _target.y, -10f);
-        targetPos = new Vector3(_target.x, _target.y,   -10f);
-        transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.fixedDeltaTime);
-    }
-
-    //void FloatCameraTowardCursor()
+    //private Vector3 GetCenterPoint()
     //{
-    //    Vector3 targetPos = new Vector3(playerCursorPos.x, playerCursorPos.y, -10f);
-    //    transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.fixedDeltaTime);
+    //    var bounds = new Bounds(targets[0].position, Vector3.zero);
+    //    bounds.Encapsulate(targets[1].position);
+//
+    //    return bounds.center;
     //}
 
+    void FollowTarget(Vector3 _target)
+    {
+        //targetPos = new Vector3(_target.x, _target.y,   -10f);
+        //var originPos = targets[0].position;
+        //transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.fixedDeltaTime);
+        //transform.position = _target;
+        //Vector2 clampedPos = transform.position;
+        //clampedPos.x = Mathf.Clamp(transform.position.x, originPos.x - 2, originPos.x + 2);
+        //clampedPos.y = Mathf.Clamp(transform.position.y, originPos.y - 4, originPos.y + 4);
+        //transform.position = clampedPos;
+        
+        transform.position = Vector3.Lerp(transform.position, _target, lerpSpeed * Time.fixedDeltaTime);
+    }
+    
     public void CameraShake()
     {
-        Debug.Log("Shake");
         StartCoroutine(Shake(shakeDuration, shakeMagnitude));
         
         IEnumerator Shake(float duration, float magnitude)

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using Ash.MyUtils;
 using Cinemachine;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -18,13 +14,19 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private Transform gunTransform;
     [SerializeField] private GameObject reloadUI;
     [SerializeField] private SpriteRenderer gunSpr;
+    [SerializeField] private SpriteRenderer fistSprite;
     [SerializeField] private float lastShot = 0;
     [SerializeField] private float rateOfFire;
+    [SerializeField] private float reloadTime;
     [SerializeField] private int ammoAmount;
     [SerializeField] private Image ammoImage;
     [SerializeField] private CameraController camController;
+    [SerializeField] private Image reloadBar;
+    [SerializeField] private GameObject reloadBarHolder;
+
     private int maxAmmo;
     private bool isReloading = false;
+    private bool canReload = true;
     [SerializeField] private Sprite[] ammoSprites;
     private float shakeTimer;
     private Vector2 weaponPosition;
@@ -53,7 +55,7 @@ public class PlayerWeapon : MonoBehaviour
         playerInputs = new PlayerInputs();
         playerInputs.Player.Shoot.performed += cxt => isFiring = true;
         playerInputs.Player.Shoot.canceled += cxt => isFiring = false;
-        playerInputs.Player.Reload.performed += cxt => Reload();
+        playerInputs.Player.Reload.performed += cxt => isReloading = true;
 
         Cursor.visible = false;
     }
@@ -62,6 +64,17 @@ public class PlayerWeapon : MonoBehaviour
     {
         var direction = cursor.GetCursorDirection;
         var rot = MyUtils.GetAngleFromVectorFloat(direction.normalized);
+
+        if (rot > 45f && rot < 135f)
+        {
+            gunSpr.sortingOrder = 3;
+            fistSprite.sortingOrder = 3;
+        }
+        else
+        {
+            gunSpr.sortingOrder = 4;
+            fistSprite.sortingOrder = 5;
+        }
 
         PositionWeapon(direction.normalized.x, rot);
 
@@ -75,6 +88,12 @@ public class PlayerWeapon : MonoBehaviour
             camController.CameraShake();
         }
 
+        if (isReloading && canReload)
+        {
+            canReload = false;
+            Reload();
+        }
+
         if (ammoAmount <= 0 && !isReloading)
         {
             reloadUI.SetActive(true);
@@ -82,7 +101,6 @@ public class PlayerWeapon : MonoBehaviour
         else
         {
             reloadUI.SetActive(false);
-
         }
         
         
@@ -113,28 +131,75 @@ public class PlayerWeapon : MonoBehaviour
         lastShot = Time.time;
     }
 
+    public void HideWeapon(bool isHidden)
+    {
+        gunSpr.enabled = !isHidden;
+        fistSprite.enabled = !isHidden;
+    }
+
     private void Reload()
     {
-        isReloading = true;
+        reloadBar.gameObject.SetActive(true);
         ammoAmount = 0;
         ammoImage.sprite = ammoSprites[ammoAmount];
         
         StartCoroutine(IeReload());
+        StartCoroutine(TimerBar());
 
+        //IEnumerator IeReload()
+        //{
+        //    int reloadCount = 0;
+        //    while (reloadCount < maxAmmo)
+        //    {
+        //        yield return new WaitForSeconds(.33f);
+        //        reloadCount++;
+        //        ammoImage.sprite = ammoSprites[reloadCount];
+        //    }
+//
+        //    ammoAmount = maxAmmo;
+        //    isReloading = false;
+        //    canReload = true;
+        //}
+        
+        
+
+        IEnumerator TimerBar()
+        {
+            var timer = 0f;
+            reloadBar.fillAmount = timer;
+            reloadBarHolder.SetActive(true);
+            
+            while (timer < reloadTime)
+            {
+                timer += Time.deltaTime / reloadTime;
+                reloadBar.fillAmount = timer;
+                yield return null;
+            }
+            
+            reloadBarHolder.SetActive(false);
+        }
+        
         IEnumerator IeReload()
         {
-            int reloadCount = 0;
+            var reloadCount = 0;
+            var reloadInterval = reloadTime / maxAmmo;
+            //reloadCount++;
+            //ammoImage.sprite = ammoSprites[reloadCount];
+            
             while (reloadCount < maxAmmo)
             {
-                yield return new WaitForSeconds(.33f);
                 reloadCount++;
                 ammoImage.sprite = ammoSprites[reloadCount];
+                yield return new WaitForSeconds(reloadInterval);
             }
-
+            
             ammoAmount = maxAmmo;
             isReloading = false;
+            canReload = true;
         }
     }
+    
+    
 
     private void UpdateAmmo()
     {

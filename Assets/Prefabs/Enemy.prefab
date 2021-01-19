@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3038402099898487885}
   - component: {fileID: 3038402099898487884}
+  - component: {fileID: 8573843244200205800}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -47,17 +48,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 0}
   player: {fileID: 0}
+  spr: {fileID: 3038402101569680426}
+  enemyDeathPrefab: {fileID: 8288343077687669299, guid: 2df16d4dd1b30a44499be9d96b9af3a8,
+    type: 3}
   maxRadius: 6
   minRadius: 4
   visionLayers:
     serializedVersion: 2
     m_Bits: 768
-  projectilePrefab: {fileID: 8979793350697907821, guid: 7f18ac61a1fe82a4eb01391649244349,
+  spawnedFromRoom: {fileID: 0}
+  projectilePrefab: {fileID: 4571394967673414172, guid: 6c40cfa24d47c694291dadc4c8d5ea53,
     type: 3}
   rateOfFire: 0.5
   ammoAmount: 6
   reloadUI: {fileID: 3837507479476967592}
-  moveSpeed: 5
+  moveSpeed: 2
+  health: 3
+--- !u!58 &8573843244200205800
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3038402099898487886}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.12805867}
+  serializedVersion: 2
+  m_Radius: 0.40256405
 --- !u!1 &3038402101569680428
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class RoomKey : MonoBehaviour
     private RoomManager roomManager;
     [SerializeField] private SpriteRenderer spr;
     [SerializeField] private Sprite green;
+    [SerializeField] private AudioSource unlock;
 
 
     private void Awake()
@@ -20,6 +21,7 @@ public class RoomKey : MonoBehaviour
         if (other.CompareTag("PlayerRoomTrigger"))
         {
             spr.sprite = green;
+            unlock.Play();
             roomManager.CurrentRoom.UnlockDoors(true, true, true, true);
         }
     }

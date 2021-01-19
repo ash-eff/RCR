@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8979793350600944694}
   - component: {fileID: 8979793350600944689}
+  - component: {fileID: 6441533601798067351}
   m_Layer: 0
   m_Name: Bullet_Sprite
   m_TagString: Untagged
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: -3300396339194205850, guid: 34299a895deb7fe4f8f7f2a43398eea0,
+  m_Sprite: {fileID: 1115682805434658061, guid: 4e191eabeb0a5f941a5f5d7416a09b2a,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -83,6 +84,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6441533601798067351
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8979793350600944695}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4ff3cb3ae7ce3354e9dc516f184eff53, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8979793350697907821
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +117,7 @@ GameObject:
   - component: {fileID: 4068889988701428643}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,15 +173,9 @@ MonoBehaviour:
   destroyAfter: 2
   impactPrefab: {fileID: 706778387805104156, guid: 6061d1652db8cbc409632dc249b4f4cf,
     type: 3}
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
-  speed: 20
+  speed: 14
   rb2d: {fileID: 8979793350697907823}
   spr: {fileID: 8979793350600944689}
-  A: {r: 1, g: 0, b: 0.2760725, a: 1}
-  B: {r: 1, g: 0.9027058, b: 0, a: 1}
-  lerpSpeed: 10
   shotFromWeapon: {fileID: 0}
   delayTime: 0
 --- !u!58 &4068889988701428643

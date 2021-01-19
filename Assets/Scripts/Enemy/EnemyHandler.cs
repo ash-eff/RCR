@@ -9,9 +9,12 @@ public class EnemyHandler : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rigidbody2D;
     [SerializeField] private PlayerManager player;
+    [SerializeField] private SpriteRenderer spr;
+    [SerializeField] private GameObject enemyDeathPrefab;
     [SerializeField] private float maxRadius;
     [SerializeField] private float minRadius;
     [SerializeField] private LayerMask visionLayers;
+    public BaseRoom spawnedFromRoom;
     public StateMachine<EnemyHandler> stateMachine;
     [SerializeField] private GameObject projectilePrefab;
     private float lastShot = 0;
@@ -19,10 +22,14 @@ public class EnemyHandler : MonoBehaviour
     [SerializeField] private int ammoAmount;
     [SerializeField] private GameObject reloadUI;
     public float moveSpeed;
+    [SerializeField] private int health;
 
     private int maxAmmo;
     private bool isReloading = false;
     private bool isShooting = false;
+
+    private Material matWhite;
+    private Material matDefault;
 
     [NonSerialized] public readonly EnemyIdleState enemyIdleState = new EnemyIdleState();
     [NonSerialized] public readonly EnemyShootState enemyShootState = new EnemyShootState();
@@ -56,11 +63,14 @@ public class EnemyHandler : MonoBehaviour
 
     private void Start()
     {
-
+        matWhite = Resources.Load("WhiteFlash", typeof(Material)) as Material; 
+        matDefault = spr.material;
     }
 
     private void Update() => stateMachine.Update();
     private void FixedUpdate() => stateMachine.FixedUpdate();
+
+
 
     //takedamage
 
@@ -138,6 +148,40 @@ public class EnemyHandler : MonoBehaviour
     public void Move(Vector2 velocity)
     {
         rigidbody2D.MovePosition(rigidbody2D.position + velocity * Time.fixedDeltaTime);
+    }
+
+    private void TakeDamage()
+    {
+        health--;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        spawnedFromRoom.SpawnKey();
+        GameObject obj = Instantiate(enemyDeathPrefab, transform.position, Quaternion.identity);
+        Destroy(obj, 1.25f);
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerBullet"))
+        {
+            Destroy(collision.gameObject);
+            TakeDamage();
+            spr.material = matWhite;
+            
+            Invoke("SwapMaterialToDefault", .1f);
+        }
+    }
+    
+    private void SwapMaterialToDefault()
+    {
+        spr.material = matDefault;
     }
 
     private void OnDrawGizmos()
