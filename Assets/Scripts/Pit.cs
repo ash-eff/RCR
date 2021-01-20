@@ -13,11 +13,11 @@ public class Pit : MonoBehaviour
         player = FindObjectOfType<PlayerManager>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("PlayerPitTrigger"))
-        {
-            player.PlayerIsFalling(transform.position);
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (other.CompareTag("PlayerPitTrigger"))
+    //    {
+    //        player.PlayerIsFalling(transform.position);
+    //    }
+    //}
 }

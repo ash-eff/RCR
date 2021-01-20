@@ -32,13 +32,13 @@ public class PlayerFallTrigger : MonoBehaviour
             lastPosition = currentPosition;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Pit"))
-        {
-            fallTrigger.enabled = false;
-            inPit = true;
-            playerManager.PlayerIsFalling(lastPosition);
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (other.CompareTag("Pit"))
+    //    {
+    //        fallTrigger.enabled = false;
+    //        inPit = true;
+    //        playerManager.PlayerIsFalling(lastPosition);
+    //    }
+    //}
 }

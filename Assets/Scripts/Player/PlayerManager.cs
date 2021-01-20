@@ -2,152 +2,74 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Ash.MyUtils;
+using Ash.StateMachine;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-	[SerializeField] private CharacterController2D controller;
-	[SerializeField] private Animator anim;
-	[SerializeField] private PlayerWeapon weapon;
-	[SerializeField] private GameObject startMarker;
-	[SerializeField] private GameObject endMarker;
+	public StateMachine<PlayerManager> stateMachine;
+	[SerializeField] private float runSpeed = 40f;
+	private PlayerAnimationController animController;
+	private PlayerController playerController;
+	private PlayerInput playerInput;
+	private PlayerWeapon currentWeapon;
 
-	private PlayerInputs playerInputs;
-	private PlayerCursor cursor;
-	public Vector2 directionAxis;
-	public Vector2 landPosition;
-	private float runSpeed = 40f;
-	private float jumpSpeed = 15f;
-	public bool isFalling;
-	private bool isDashing;
-	private bool isJumping;
-	private bool canJump = true;
-	public float idleTimer = 0;
-
-	[SerializeField] private GameObject playerSprite;
-	[SerializeField] private GameObject playerFallTrigger;
-	private static readonly int Pit = Animator.StringToHash("Pit");
-
-
-	private void OnEnable()
-	{
-		playerInputs.Enable();
-	}
-
-	private void OnDisable()
-	{
-		playerInputs.Disable();
-	}
+	[NonSerialized] public readonly PlayerBaseState playerBaseState = new PlayerBaseState();
+	[NonSerialized] public readonly PlayerIdleState playerIdleState = new PlayerIdleState();
+	
 
 	private void Awake()
 	{
-		cursor = GetComponent<PlayerCursor>();
-		playerInputs = new PlayerInputs();
-		playerInputs.Player.Move.performed += cxt => SetMovement(cxt.ReadValue<Vector2>());
-		playerInputs.Player.Move.canceled += cxt => ResetMovement();
-		playerInputs.Player.Jump.performed += cxt => Jump();
+		animController = GetComponent<PlayerAnimationController>();
+		playerController = GetComponent<PlayerController>();
+		playerInput = GetComponent<PlayerInput>();
+		currentWeapon = GetComponent<PlayerWeapon>();
+		stateMachine = new StateMachine<PlayerManager>(this);
+		stateMachine.ChangeState(playerBaseState);
 	}
 
 	private void Update()
 	{
-		if (!isFalling)
-		{
-			// flip sprite based on aim direction
-			controller.Flip(cursor.GetCursorDirection.x);
-		
-			// set sprite direction animation
-			anim.SetFloat("xDir", cursor.GetCursorDirection.x);
-			anim.SetFloat("yDir", cursor.GetCursorDirection.y);
-		
-			// set idle or not based on movement
-			if (Mathf.Abs(directionAxis.x) > 0 || Mathf.Abs(directionAxis.y) > 0)
-			{
-				anim.SetBool("Moving", true);
-				anim.SetBool("Idle", false);
-				weapon.HideWeapon(false);
-				idleTimer = 0;
-			}
-			else
-			{
-				anim.SetBool("Moving", false);
-			
-				if (weapon.isFiring)
-				{
-					anim.SetBool("Idle", false);
-					weapon.HideWeapon(false);
-					idleTimer = 0;
-				}
-				else
-				{
-					// count down for idle
-					idleTimer += Time.deltaTime;
-					if (idleTimer > 5f)
-					{
-						anim.SetBool("Idle", true);
-						weapon.HideWeapon(true);
-					}
-				}
-			}
-		}
-
+		playerInput.AdjustCursorPosition();
+		animController.SpriteFlip(playerInput.GetCursorDirection.x);
+		animController.SetSpriteFacingDirection(playerInput.GetCursorDirection);
+		animController.IsPlayerMoving(playerInput.GetDirectionAxis);
+		stateMachine.Update();
 	}
-
+	
 	void FixedUpdate ()
 	{
-		// Move our character
-		controller.Move(directionAxis * (runSpeed * Time.fixedDeltaTime),landPosition, isDashing, isFalling, isJumping);
+		playerController.Move(playerInput.GetDirectionAxis * (runSpeed * Time.fixedDeltaTime));
+		stateMachine.FixedUpdate();
 	}
 
-	public void PlayerIsFalling(Vector3 atPosition)
-	{
-		anim.SetBool(Pit, true);
-		var foo = anim.GetBool(Pit);
-		Debug.Log(foo + " Falling.");
-		playerFallTrigger.SetActive(false);
-		StartCoroutine(PlayerFall());
-
-		IEnumerator PlayerFall()
-		{
-			weapon.HideWeapon(true);
-			isFalling = true;
-			//playerSprite.SetActive(false);
-
-			yield return new WaitForSeconds(1f);
-			
-			transform.position = atPosition;
-			//playerSprite.SetActive(true);
-			isFalling = false;
-			anim.SetBool(Pit, false);
-			playerFallTrigger.SetActive(true);
-			weapon.HideWeapon(false);
-			foo = anim.GetBool(Pit);
-			Debug.Log(foo + " Falling.");
-		}
-	}
-
-	private void SetMovement(Vector2 movement) => directionAxis = movement;
-	
-	private void ResetMovement() => directionAxis = Vector3.zero;
-
-	private void Jump()
-	{
-		if (canJump)
-		{
-			canJump = false;
-			landPosition = (Vector2)transform.position + (directionAxis * 4);
-			isJumping = true;
-			anim.SetBool("Jumping", true);
-			playerFallTrigger.SetActive(false);
-		}
-	}
-
-	public void DoneJumping()
-	{
-		isJumping = false;
-		anim.SetBool("Jumping", false);
-		canJump = true;
-		playerFallTrigger.SetActive(true);
-	}
+	//public void PlayerIsFalling(Vector3 atPosition)
+	//{
+	//	anim.SetBool(Pit, true);
+	//	var foo = anim.GetBool(Pit);
+	//	Debug.Log(foo + " Falling.");
+	//	playerFallTrigger.SetActive(false);
+	//	StartCoroutine(PlayerFall());
+//
+	//	IEnumerator PlayerFall()
+	//	{
+	//		weapon.HideWeapon(true);
+	//		isFalling = true;
+	//		//playerSprite.SetActive(false);
+//
+	//		yield return new WaitForSeconds(1f);
+	//		
+	//		transform.position = atPosition;
+	//		//playerSprite.SetActive(true);
+	//		isFalling = false;
+	//		anim.SetBool(Pit, false);
+	//		playerFallTrigger.SetActive(true);
+	//		weapon.HideWeapon(false);
+	//		foo = anim.GetBool(Pit);
+	//		Debug.Log(foo + " Falling.");
+	//	}
+	//}
 }

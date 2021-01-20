@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    [SerializeField] private Transform muzzlePosition;
+    public Transform muzzlePosition;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject casingPrefab;
     [SerializeField] private Animator weaponAnim;
@@ -23,6 +23,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private CameraController camController;
     [SerializeField] private Image reloadBar;
     [SerializeField] private GameObject reloadBarHolder;
+    [SerializeField] private PlayerInput playerInput; 
 
     private int maxAmmo;
     private bool isReloading = false;
@@ -30,7 +31,6 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private Sprite[] ammoSprites;
     private float shakeTimer;
     private Vector2 weaponPosition;
-    private PlayerCursor cursor;
     public bool isFiring;
     [SerializeField] private CinemachineVirtualCamera cine;
     private CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin;
@@ -51,20 +51,15 @@ public class PlayerWeapon : MonoBehaviour
         maxAmmo = ammoAmount;
         ammoImage.sprite = ammoSprites[ammoAmount];
         weaponPosition = gunTransform.localPosition;
-        cursor = GetComponent<PlayerCursor>();
-        playerInputs = new PlayerInputs();
-        playerInputs.Player.Shoot.performed += cxt => isFiring = true;
-        playerInputs.Player.Shoot.canceled += cxt => isFiring = false;
-        playerInputs.Player.Reload.performed += cxt => isReloading = true;
-
-        Cursor.visible = false;
     }
 
     private void Update()
     {
-        var direction = cursor.GetCursorDirection;
+        var direction = playerInput.GetCursorDirection;
         var rot = MyUtils.GetAngleFromVectorFloat(direction.normalized);
 
+        // maybe add this to inputs and create an event that says we should hide things behind us
+        // this can be used by more than gun and hand sprites
         if (rot > 45f && rot < 135f)
         {
             gunSpr.sortingOrder = 3;
@@ -78,15 +73,9 @@ public class PlayerWeapon : MonoBehaviour
 
         PositionWeapon(direction.normalized.x, rot);
 
-        gunTransform.rotation = Quaternion.Euler(0,0,rot);
+        gunTransform.rotation = Quaternion.Euler(0, 0, rot);
 
-        if (isFiring && Time.time > rateOfFire + lastShot && ammoAmount > 0)
-        {
-            //FireWeapon(direction, rot);
-            FireWeapon(direction.normalized, rot);
 
-            camController.CameraShake();
-        }
 
         if (isReloading && canReload)
         {
@@ -102,20 +91,6 @@ public class PlayerWeapon : MonoBehaviour
         {
             reloadUI.SetActive(false);
         }
-        
-        
-        if (shakeTimer > 0)
-        {
-            shakeTimer -= Time.deltaTime;
-
-            if (shakeTimer <= 0)
-            {
-                cinemachineBasicMultiChannelPerlin =
-                    cine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-                cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0;
-            }
-        }
     }
 
     void FireWeapon(Vector3 dir, float rot)
@@ -129,6 +104,7 @@ public class PlayerWeapon : MonoBehaviour
         Instantiate(projectilePrefab, muzzlePosition.position, Quaternion.Euler(0, 0, rot));
         //shakeTimer = .25f;
         lastShot = Time.time;
+        camController.CameraShake();
     }
 
     public void HideWeapon(bool isHidden)
@@ -145,23 +121,6 @@ public class PlayerWeapon : MonoBehaviour
         
         StartCoroutine(IeReload());
         StartCoroutine(TimerBar());
-
-        //IEnumerator IeReload()
-        //{
-        //    int reloadCount = 0;
-        //    while (reloadCount < maxAmmo)
-        //    {
-        //        yield return new WaitForSeconds(.33f);
-        //        reloadCount++;
-        //        ammoImage.sprite = ammoSprites[reloadCount];
-        //    }
-//
-        //    ammoAmount = maxAmmo;
-        //    isReloading = false;
-        //    canReload = true;
-        //}
-        
-        
 
         IEnumerator TimerBar()
         {

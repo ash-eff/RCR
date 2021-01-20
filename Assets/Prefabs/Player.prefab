@@ -604,6 +604,7 @@ MonoBehaviour:
   playerManager: {fileID: 5762019494532921158}
   fallTrigger: {fileID: 7862665061769549723}
   inPit: 0
+  jumpPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &5762019494384694720
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,8 +723,9 @@ GameObject:
   - component: {fileID: 4509010541002490989}
   - component: {fileID: 5664099285625214721}
   - component: {fileID: 5762019494532921158}
-  - component: {fileID: 258153430582028704}
   - component: {fileID: 8319579332380780112}
+  - component: {fileID: 9095323136252854332}
+  - component: {fileID: 446682832033811800}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -816,8 +818,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786c1ed215ee9d34c8ad54384fc2ea02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSmoothing: 0.05
-  spr: {fileID: 5762019494384694726}
 --- !u!114 &5762019494532921158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -830,30 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8644d33345e77614ba3ace9c18398d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 5664099285625214721}
-  anim: {fileID: 9045818586556270623}
-  weapon: {fileID: 8319579332380780112}
-  isFalling: 0
-  idleTimer: 0
-  playerSprite: {fileID: 5762019494384694720}
-  playerFallTrigger: {fileID: 3659063819271160258}
---- !u!114 &258153430582028704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5762019494532921159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7269e9a51c07f734b965df58f282b18f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursorRadius: 4
-  cursor: {fileID: 8542368496562068971}
-  cursorSprite: {fileID: 6892735337024608934}
-  cursorSensitivity: 0.1
-  edgeOffset: {x: 2, y: 4}
+  runSpeed: 40
 --- !u!114 &8319579332380780112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -884,6 +861,7 @@ MonoBehaviour:
   camController: {fileID: 0}
   reloadBar: {fileID: 5561196202556096395}
   reloadBarHolder: {fileID: 1059385875569939910}
+  playerInput: {fileID: 446682832033811800}
   ammoSprites:
   - {fileID: -4335491109295762159, guid: 80d31a27f33401d4da717d137f3d4a78, type: 3}
   - {fileID: -5332004058654950533, guid: 80d31a27f33401d4da717d137f3d4a78, type: 3}
@@ -894,6 +872,96 @@ MonoBehaviour:
   - {fileID: 7204592227094593969, guid: 80d31a27f33401d4da717d137f3d4a78, type: 3}
   isFiring: 0
   cine: {fileID: 0}
+--- !u!114 &9095323136252854332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5762019494532921159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4710a9fb8231e142b01c5f793ec463e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterSprite: {fileID: 5762019494384694726}
+  anim: {fileID: 9045818586556270623}
+--- !u!114 &446682832033811800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5762019494532921159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb80cce7ce92874cb7c2bf2ce012688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursor: {fileID: 8542368496562068971}
+  edgeOffsetX: 2
+  edgeOffsetY: 4
+  idleTimer: 10
+  OnJumpEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9095323136252854332}
+        m_TargetAssemblyTypeName: PlayerAnimationController, Assembly-CSharp
+        m_MethodName: OnJumpAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnLandEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9095323136252854332}
+        m_TargetAssemblyTypeName: PlayerAnimationController, Assembly-CSharp
+        m_MethodName: OnLandAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnIdleEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9095323136252854332}
+        m_TargetAssemblyTypeName: PlayerAnimationController, Assembly-CSharp
+        m_MethodName: OnIdleAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnWakeEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9095323136252854332}
+        m_TargetAssemblyTypeName: PlayerAnimationController, Assembly-CSharp
+        m_MethodName: OnWakeAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7407879454962772937
 GameObject:
   m_ObjectHideFlags: 0
