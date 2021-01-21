@@ -9,24 +9,29 @@ public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private Transform cursor;
     [SerializeField] private float edgeOffsetX, edgeOffsetY;
-
-    public float idleTimer = 10f;
+    
+    private float idleTimer = 10f;
     private PlayerInputs playerInputs;
     private Vector2 directionAxis;
     private Vector3 screenBounds;
     private Vector3 cursorDirection;
+    private float cursorDirectionRotation;
     public UnityEvent OnJumpEvent;
     public UnityEvent OnLandEvent;
     public UnityEvent OnIdleEvent;
     public UnityEvent OnWakeEvent;
     public UnityEvent OnShootEvent;
+    public UnityEvent OnSwapEvent;
+
 
 
     //public UnityEvent OnFallEvent;
     //public UnityEvent OnDashEvent;
+    
     private bool isIdle;
     public Vector2 GetDirectionAxis => directionAxis;
     public Vector3 GetCursorDirection => cursorDirection.normalized;
+    public float GetRotationToCursor => cursorDirectionRotation;
     public bool CheckIsIdle => isIdle;
 
     private void OnEnable()
@@ -47,7 +52,10 @@ public class PlayerInput : MonoBehaviour
         playerInputs.Player.Jump.started += cxt => OnJumpStart();
         playerInputs.Player.Jump.performed += cxt => OnHeldJump();
         playerInputs.Player.Jump.canceled += cxt => OnLand();
-        playerInputs = new PlayerInputs();
+        playerInputs.Player.WeaponSwap.performed += cxt => OnSwapEvent.Invoke();
+        playerInputs.Player.Shoot.performed += cxt => OnShootEvent.Invoke();
+
+
         //playerInputs.Player.Shoot.performed += cxt => isFiring = true;
         //playerInputs.Player.Shoot.canceled += cxt => isFiring = false;
         //playerInputs.Player.Reload.performed += cxt => isReloading = true;
@@ -85,9 +93,12 @@ public class PlayerInput : MonoBehaviour
         //{
         //    OnShootEvent.Invoke();
         //}
+        
+        AdjustCursorPosition();
+        cursorDirectionRotation = MyUtils.GetAngleFromVectorFloat(cursorDirection.normalized);
     }
 
-    public void AdjustCursorPosition()
+    private void AdjustCursorPosition()
     {
         var originPos = transform.position;
         var mousePos = MyUtils.GetMouseWorldPosition();
@@ -108,7 +119,7 @@ public class PlayerInput : MonoBehaviour
         float width = height * cam.aspect;
         screenBounds = new Vector2((width / 2) + edgeOffsetX, (height / 2) + edgeOffsetY);
     }
-
+    
     private void SetMovement(Vector2 movement) => directionAxis = movement;
 	
     private void ResetMovement() => directionAxis = Vector3.zero;
