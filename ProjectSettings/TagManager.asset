@@ -8,7 +8,7 @@ TagManager:
   - PlayerRoomTrigger
   - PlayerBullet
   - PlayerPitTrigger
-  - Pit
+  - Hazard
   layers:
   - Default
   - TransparentFX
