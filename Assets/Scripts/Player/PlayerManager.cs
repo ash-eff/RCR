@@ -21,24 +21,28 @@ public class PlayerManager : MonoBehaviour
 	private PlayerHazardTrigger hazardTrigger;
 	private PlayerController playerController;
 	private PlayerInput playerInput;
+	public bool specialAvailable = false;
+	private bool canCollectSpecialPoints = true;
 	private int inventoryIndex = -1;
+	private int specialAbilityPoints = 0;
+	[SerializeField] private int pointsNeededForSpecial;
+	[SerializeField] private Image specialFillBar;
+	[SerializeField] private GameObject specialReadyText;
 	[SerializeField] private Weapon currentWeapon;
 	[SerializeField] private Transform weaponInventory;
 	[SerializeField] private Weapon[] allWeapons;
 	[SerializeField] private Image weaponImage;
 	[SerializeField] private TextMeshProUGUI ammoText;
-	[SerializeField] private TextMeshProUGUI damageText;
 
 	private Dictionary<string, Weapon> availableWeaponsDictionary = new Dictionary<string, Weapon>();
 	private Dictionary<string, Weapon> ownedWeaponsDictionary = new Dictionary<string, Weapon>();
 
-
 	[NonSerialized] public readonly PlayerBaseState playerBaseState = new PlayerBaseState();
 	[NonSerialized] public readonly PlayerIdleState playerIdleState = new PlayerIdleState();
-
-
+	
 	private void Awake()
 	{
+		ResetSpecialAbility();
 		foreach (Weapon weapon in allWeapons) 
 		{
 			availableWeaponsDictionary.Add(weapon.name, weapon);
@@ -58,6 +62,11 @@ public class PlayerManager : MonoBehaviour
 		animController.IsPlayerMoving(playerInput.GetDirectionAxis);
 		PositionWeaponHolder(playerInput.GetCursorDirection.x, playerInput.GetRotationToCursor);
 		stateMachine.Update();
+		if (currentWeapon != null)
+		{
+			string ammo = currentWeapon.currentAmmo + "/" + currentWeapon.totalAmmo;
+			ammoText.text = ammo;
+		}
 	}
 	
 	private void FixedUpdate ()
@@ -150,8 +159,15 @@ public class PlayerManager : MonoBehaviour
 		if (currentWeapon != null)
 		{
 			currentWeapon.FireWeapon(playerInput.GetRotationToCursor);
-			string ammo = currentWeapon.currentAmmo + "/" + currentWeapon.totalAmmo;
-			ammoText.text = ammo;
+		}
+	}
+
+	public void SpecialAbility()
+	{
+		if (currentWeapon != null && specialAvailable)
+		{
+			specialAvailable = false;
+			currentWeapon.SpecialAbility();
 		}
 	}
 	
@@ -175,6 +191,35 @@ public class PlayerManager : MonoBehaviour
 		// if it's the first weapon you pick up, automatically equip it
 		if(ownedWeaponsDictionary.Count == 1)
 			EquipWeapon(newWeapon);
+	}
+
+	public void CollectAmmo(int ammoAmount)
+	{
+		currentWeapon.currentAmmo += ammoAmount;
+	}
+
+	public void GainSpecialAbilityPoints()
+	{
+		if (canCollectSpecialPoints)
+		{
+			specialAbilityPoints++;
+			float fillAmount = 1f / pointsNeededForSpecial;
+			specialFillBar.fillAmount += fillAmount;
+			if (specialAbilityPoints > pointsNeededForSpecial)
+			{
+				specialAbilityPoints = 0;
+				canCollectSpecialPoints = false;
+				specialAvailable = true;
+				specialReadyText.SetActive(true);
+			}
+		}
+	}
+
+	public void ResetSpecialAbility()
+	{
+		specialFillBar.fillAmount = 0;
+		specialReadyText.SetActive(false);
+		canCollectSpecialPoints = true;
 	}
 
 	//public void PlayerIsFalling(Vector3 atPosition)
@@ -204,22 +249,21 @@ public class PlayerManager : MonoBehaviour
 	//	}
 	//}
 
-	public void DealWithHazard()
-	{
-		Hazard hazard = hazardTrigger.GetCurrentHazard;
-		if(hazard != null)
-			damageText.text = "Taking " + hazard.typeOfHazard + " damage!";
-		else
-		{
-			Debug.Log("No Hazard");
-		}
-	}
+	//public void DealWithHazard()
+	//{
+	//	Hazard hazard = hazardTrigger.GetCurrentHazard;
+	//	if(hazard != null)
+	//		damageText.text = "Taking " + hazard.typeOfHazard + " damage!";
+	//	else
+	//	{
+	//		Debug.Log("No Hazard");
+	//	}
+	//}
 
-	public void DealWithHazardExit()
-	{
-		damageText.text = "No hazard.";
-	}
+	//public void DealWithHazardExit()
+	//{
+	//	damageText.text = "No hazard.";
+	//}
 
 	#endregion
-
 }

@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private Rigidbody2D rb2d;
     [SerializeField] private SpriteRenderer spr;
 
+    public int damageAmount = 1;
     public Weapon shotFromWeapon;
     public float delayTime;
 

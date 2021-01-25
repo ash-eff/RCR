@@ -65,6 +65,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SpecialAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8ccca45-0271-4b8e-860c-bb446b821536"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -408,6 +416,17 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""WeaponSwap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27c80c6a-301e-407e-a9d5-c177be560589"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse"",
+                    ""action"": ""SpecialAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -450,6 +469,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_WeaponSwap = m_Player.FindAction("WeaponSwap", throwIfNotFound: true);
+        m_Player_SpecialAbility = m_Player.FindAction("SpecialAbility", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -505,6 +525,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_WeaponSwap;
+    private readonly InputAction m_Player_SpecialAbility;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -515,6 +536,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @WeaponSwap => m_Wrapper.m_Player_WeaponSwap;
+        public InputAction @SpecialAbility => m_Wrapper.m_Player_SpecialAbility;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -542,6 +564,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @WeaponSwap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponSwap;
                 @WeaponSwap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponSwap;
                 @WeaponSwap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponSwap;
+                @SpecialAbility.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpecialAbility;
+                @SpecialAbility.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpecialAbility;
+                @SpecialAbility.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpecialAbility;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -564,6 +589,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @WeaponSwap.started += instance.OnWeaponSwap;
                 @WeaponSwap.performed += instance.OnWeaponSwap;
                 @WeaponSwap.canceled += instance.OnWeaponSwap;
+                @SpecialAbility.started += instance.OnSpecialAbility;
+                @SpecialAbility.performed += instance.OnSpecialAbility;
+                @SpecialAbility.canceled += instance.OnSpecialAbility;
             }
         }
     }
@@ -603,5 +631,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnWeaponSwap(InputAction.CallbackContext context);
+        void OnSpecialAbility(InputAction.CallbackContext context);
     }
 }

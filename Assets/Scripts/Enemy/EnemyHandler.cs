@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ash.StateMachine;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class EnemyHandler : MonoBehaviour
@@ -11,6 +12,7 @@ public class EnemyHandler : MonoBehaviour
     [SerializeField] private PlayerManager player;
     [SerializeField] private SpriteRenderer spr;
     [SerializeField] private GameObject enemyDeathPrefab;
+    [SerializeField] private GameObject ammoPrefab;
     [SerializeField] private float maxRadius;
     [SerializeField] private float minRadius;
     [SerializeField] private LayerMask visionLayers;
@@ -23,6 +25,9 @@ public class EnemyHandler : MonoBehaviour
     [SerializeField] private GameObject reloadUI;
     public float moveSpeed;
     [SerializeField] private int health;
+    private EnemySpawner enemySpawner;
+    
+    public UnityEvent OnEnemyDeath;
 
     private int maxAmmo;
     private bool isReloading = false;
@@ -31,8 +36,8 @@ public class EnemyHandler : MonoBehaviour
     private Material matWhite;
     private Material matDefault;
 
-    [NonSerialized] public readonly EnemyIdleState enemyIdleState = new EnemyIdleState();
-    [NonSerialized] public readonly EnemyShootState enemyShootState = new EnemyShootState();
+    //[NonSerialized] public readonly EnemyIdleState enemyIdleState = new EnemyIdleState();
+    //[NonSerialized] public readonly EnemyShootState enemyShootState = new EnemyShootState();
     [NonSerialized] public readonly EnemyMoveState enemyMoveState = new EnemyMoveState();
 
     public float GetMaxRadius => maxRadius;
@@ -55,10 +60,13 @@ public class EnemyHandler : MonoBehaviour
     
     private void Awake()
     {
+        if(OnEnemyDeath == null) OnEnemyDeath = new UnityEvent();
+        enemySpawner = FindObjectOfType<EnemySpawner>();
+        OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
         maxAmmo = ammoAmount;
         player = FindObjectOfType<PlayerManager>();
         stateMachine = new StateMachine<EnemyHandler>(this);
-        stateMachine.ChangeState(enemyIdleState);
+        stateMachine.ChangeState(enemyMoveState);
     }
 
     private void Start()
@@ -76,83 +84,83 @@ public class EnemyHandler : MonoBehaviour
 
     //die
     
-    public bool CheckLineOfSightToPlayer()
-    {
-        var dir = GetPlayerPosition - transform.position;
-       
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir.normalized, dir.magnitude, visionLayers);
-       
-        if (hit)
-        {
-            Debug.DrawLine(transform.position, hit.point);
-            if (hit.transform.CompareTag("Player"))
-            {
-                return true;
-            }
+    //public bool CheckLineOfSightToPlayer()
+    //{
+    //    var dir = GetPlayerPosition - transform.position;
+    //   
+    //    RaycastHit2D hit = Physics2D.Raycast(transform.position, dir.normalized, dir.magnitude, visionLayers);
+    //   
+    //    if (hit)
+    //    {
+    //        Debug.DrawLine(transform.position, hit.point);
+    //        if (hit.transform.CompareTag("Player"))
+    //        {
+    //            return true;
+    //        }
+//
+    //        return false;
+    //    }
+//
+    //    
+    //    return false;
+    //}
 
-            return false;
-        }
-
-        
-        return false;
-    }
-
-    public float CheckDistanceToPlayer()
-    {
-        var dist = player.transform.position - transform.position;
-        return dist.magnitude;
-    }
+    //public float CheckDistanceToPlayer()
+    //{
+    //    var dist = player.transform.position - transform.position;
+    //    return dist.magnitude;
+    //}
     
-    public void FireWeapon(Vector3 dir, float rot)
-    {
-        UpdateAmmo();
-        var offset = Random.Range(-12, 12);
-        rot += offset;
-        //Instantiate(shellPrefab, startPosition, quaternion.identity);
-        Instantiate(projectilePrefab, transform.position, Quaternion.Euler(0, 0, rot));
-        //shakeTimer = .25f;
-        lastShot = Time.time;
-    }
-
-    public void Reload()
-    {
-        isReloading = true;
-        reloadUI.SetActive(true);
-        ammoAmount = 0;
-        
-        StartCoroutine(IeReload());
-
-        IEnumerator IeReload()
-        {
-            int reloadCount = 0;
-            while (reloadCount < maxAmmo)
-            {
-                yield return new WaitForSeconds(.33f);
-                reloadCount++;
-            }
-
-            ammoAmount = maxAmmo;
-            isReloading = false;
-            reloadUI.SetActive(false);
-        }
-    }
-    
-    private void UpdateAmmo()
-    {
-        if (ammoAmount > 0)
-        {
-            ammoAmount--;
-        }
-    }
+    //public void FireWeapon(Vector3 dir, float rot)
+    //{
+    //    UpdateAmmo();
+    //    var offset = Random.Range(-12, 12);
+    //    rot += offset;
+    //    //Instantiate(shellPrefab, startPosition, quaternion.identity);
+    //    Instantiate(projectilePrefab, transform.position, Quaternion.Euler(0, 0, rot));
+    //    //shakeTimer = .25f;
+    //    lastShot = Time.time;
+    //}
+//
+    //public void Reload()
+    //{
+    //    isReloading = true;
+    //    reloadUI.SetActive(true);
+    //    ammoAmount = 0;
+    //    
+    //    StartCoroutine(IeReload());
+//
+    //    IEnumerator IeReload()
+    //    {
+    //        int reloadCount = 0;
+    //        while (reloadCount < maxAmmo)
+    //        {
+    //            yield return new WaitForSeconds(.33f);
+    //            reloadCount++;
+    //        }
+//
+    //        ammoAmount = maxAmmo;
+    //        isReloading = false;
+    //        reloadUI.SetActive(false);
+    //    }
+    //}
+    //
+    //private void UpdateAmmo()
+    //{
+    //    if (ammoAmount > 0)
+    //    {
+    //        ammoAmount--;
+    //    }
+    //}
     
     public void Move(Vector2 velocity)
     {
         rigidbody2D.MovePosition(rigidbody2D.position + velocity * Time.fixedDeltaTime);
     }
 
-    private void TakeDamage()
+    private void TakeDamage(int dmgAmount)
     {
-        health--;
+        health -= dmgAmount;
         if (health <= 0)
         {
             Die();
@@ -161,18 +169,25 @@ public class EnemyHandler : MonoBehaviour
 
     private void Die()
     {
-        spawnedFromRoom.SpawnKey();
+        //spawnedFromRoom.SpawnKey();
+        var chance = Random.value;
+        if (chance <= .2f)
+        {
+            Instantiate(ammoPrefab, transform.position, Quaternion.identity);
+        }
         GameObject obj = Instantiate(enemyDeathPrefab, transform.position, Quaternion.identity);
         Destroy(obj, 1.25f);
         Destroy(gameObject);
+        OnEnemyDeath.Invoke();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerBullet"))
         {
+            TakeDamage(collision.GetComponent<Projectile>().damageAmount);
             Destroy(collision.gameObject);
-            TakeDamage();
+            
             spr.material = matWhite;
             
             Invoke("SwapMaterialToDefault", .1f);

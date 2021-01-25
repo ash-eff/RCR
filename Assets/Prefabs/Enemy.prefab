@@ -51,6 +51,8 @@ MonoBehaviour:
   spr: {fileID: 3038402101569680426}
   enemyDeathPrefab: {fileID: 8288343077687669299, guid: 2df16d4dd1b30a44499be9d96b9af3a8,
     type: 3}
+  ammoPrefab: {fileID: 8204351759268788479, guid: 90f2bfb25af98f7459a5babde920c02c,
+    type: 3}
   maxRadius: 6
   minRadius: 4
   visionLayers:
@@ -64,6 +66,9 @@ MonoBehaviour:
   reloadUI: {fileID: 3837507479476967592}
   moveSpeed: 2
   health: 3
+  OnEnemyDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!58 &8573843244200205800
 CircleCollider2D:
   m_ObjectHideFlags: 0

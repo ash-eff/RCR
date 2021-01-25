@@ -28,7 +28,7 @@ public class BaseRoom : MonoBehaviour
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
-        fog.SetActive(true);
+        //fog.SetActive(true);
         roomManager = FindObjectOfType<RoomManager>();
     }
     

@@ -234,13 +234,13 @@ MonoBehaviour:
   description: A Pistol
   artwork: {fileID: 21300000, guid: 81cf9d940e8d19446aeb7a699b04c55b, type: 3}
   damage: 1
-  rateOfFire: 0.5
+  rateOfFire: 0.3
   reloadTime: 1
   lastShot: 0
-  totalAmmo: 6
-  currentAmmo: 6
+  totalAmmo: 150
+  currentAmmo: 150
   gunSprite: {fileID: 5039490806847305650}
-  gunPosition: {fileID: 4324269780768009123}
+  gunPosition: {x: 0, y: 0}
   muzzlePosition: {fileID: 4726903538802219528}
   projectilePrefab: {fileID: 8979793350697907821, guid: 7f18ac61a1fe82a4eb01391649244349,
     type: 3}
