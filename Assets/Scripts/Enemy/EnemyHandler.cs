@@ -13,6 +13,8 @@ public class EnemyHandler : MonoBehaviour
     [SerializeField] private SpriteRenderer spr;
     [SerializeField] private GameObject enemyDeathPrefab;
     [SerializeField] private GameObject ammoPrefab;
+    [SerializeField] private GameObject coinPrefab;
+
     [SerializeField] private float maxRadius;
     [SerializeField] private float minRadius;
     [SerializeField] private LayerMask visionLayers;
@@ -62,7 +64,7 @@ public class EnemyHandler : MonoBehaviour
     {
         if(OnEnemyDeath == null) OnEnemyDeath = new UnityEvent();
         enemySpawner = FindObjectOfType<EnemySpawner>();
-        OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
+        //OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
         maxAmmo = ammoAmount;
         player = FindObjectOfType<PlayerManager>();
         stateMachine = new StateMachine<EnemyHandler>(this);
@@ -174,6 +176,10 @@ public class EnemyHandler : MonoBehaviour
         if (chance <= .2f)
         {
             Instantiate(ammoPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
         }
         GameObject obj = Instantiate(enemyDeathPrefab, transform.position, Quaternion.identity);
         Destroy(obj, 1.25f);

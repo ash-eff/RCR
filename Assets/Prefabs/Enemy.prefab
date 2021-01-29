@@ -53,6 +53,8 @@ MonoBehaviour:
     type: 3}
   ammoPrefab: {fileID: 8204351759268788479, guid: 90f2bfb25af98f7459a5babde920c02c,
     type: 3}
+  coinPrefab: {fileID: 5745724294925700961, guid: 20c29829117ae6c4386afdb3571653da,
+    type: 3}
   maxRadius: 6
   minRadius: 4
   visionLayers:
