@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5057355355916856766}
   - component: {fileID: 4563179654204794847}
-  - component: {fileID: 2693419248191471433}
+  - component: {fileID: 3942203573594821847}
   m_Layer: 0
   m_Name: RedPistol
   m_TagString: Untagged
@@ -217,7 +217,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2693419248191471433
+--- !u!114 &3942203573594821847
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,25 +226,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 8049788475362240570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf8c57d9dcc1af4b81144780d02cdb2, type: 3}
+  m_Script: {fileID: 11500000, guid: c7b32f743c15d4444afa9ec38a8069c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isOwned: 0
+  isEquipped: 0
   name: Red Pistol
-  description: A Pistol
+  description: 
+  isUsingSpecial: 0
+  isSpecialCooledDown: 0
   artwork: {fileID: 21300000, guid: ca7a12bc213c81a4b96348fe25e0b727, type: 3}
   damage: 1
-  rateOfFire: 0.5
-  reloadTime: 1
+  rateOfFire: 0.1
   lastShot: 0
-  totalAmmo: 6
-  currentAmmo: 6
+  totalAmmo: 300
+  currentAmmo: 300
+  cooldownTimer: 60
+  currentCooldownTimer: 0
+  minAmmoForSpecial: 60
   gunSprite: {fileID: 4817651466633877257}
   gunPosition: {x: 0, y: 0}
   muzzlePosition: {fileID: 5092788269158447795}
-  projectilePrefab: {fileID: 8979793350697907821, guid: 7f18ac61a1fe82a4eb01391649244349,
+  bulletPrefab: {fileID: 7921382562295924010, guid: f786f7298ad480843ac3295c9bb9218c,
     type: 3}
-  shellPrefab: {fileID: 464416350406689388, guid: 4eaab90c1e883e846b20d8cc4e5bcff4,
-    type: 3}
-  impactPrefab: {fileID: 706778387805104156, guid: 6061d1652db8cbc409632dc249b4f4cf,
-    type: 3}
+  cam: {fileID: 0}

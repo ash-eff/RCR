@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Ash.MyUtils
@@ -42,6 +43,14 @@ namespace Ash.MyUtils
             textMesh.color = color;
             textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
             return textMesh;
+        }
+
+        public static string GetTimeString(float timeToConvert)
+        {
+            var minutes = Mathf.FloorToInt(timeToConvert / 60);
+            var seconds = Mathf.FloorToInt(timeToConvert % 60);
+
+            return minutes.ToString("00") + ":" + seconds.ToString("00");
         }
 
        //public static TextMeshProUGUI CreateWorldTextMeshPro(Transform parent, string text, Vector3 localPosition, int fontSize, Color color, TMPro.TextAlignmentOptions textAlignment, TMP_FontAsset font)

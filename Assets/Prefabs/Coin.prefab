@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3474575668599569731}
   m_Layer: 0
   m_Name: Coin
-  m_TagString: Untagged
+  m_TagString: CoinPickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 7128488065163521277}
   m_Layer: 0
   m_Name: Coin_Sprite
-  m_TagString: Money
+  m_TagString: CoinPickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,7 +146,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2933b5400b26a6b49b49b299aa96c6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinText: {fileID: 3675871962358082599, guid: 31c8226abb4590542b20a505702a002d,
+    type: 3}
   anim: {fileID: 6470241071136362901}
+  minAmount: 1
+  maxAmount: 5
+  doneBouncing: 0
+  isSpinning: 0
 --- !u!95 &6470241071136362901
 Animator:
   serializedVersion: 3

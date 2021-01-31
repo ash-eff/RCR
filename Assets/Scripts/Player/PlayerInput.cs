@@ -17,18 +17,12 @@ public class PlayerInput : MonoBehaviour
     private Vector3 cursorDirection;
     private float cursorDirectionRotation;
     private bool isFiring = false;
-    public UnityEvent OnJumpEvent;
-    public UnityEvent OnLandEvent;
     public UnityEvent OnIdleEvent;
     public UnityEvent OnWakeEvent;
     public UnityEvent OnShootEvent;
     public UnityEvent OnSwapEvent; 
     public UnityEvent OnSpecialEvent;
 
-    
-    //public UnityEvent OnFallEvent;
-    //public UnityEvent OnDashEvent;
-    
     private bool isIdle;
     public Vector2 GetDirectionAxis => directionAxis;
     public Vector3 GetCursorDirection => cursorDirection.normalized;
@@ -50,25 +44,17 @@ public class PlayerInput : MonoBehaviour
         playerInputs = new PlayerInputs();
         playerInputs.Player.Move.performed += cxt => SetMovement(cxt.ReadValue<Vector2>());
         playerInputs.Player.Move.canceled += cxt => ResetMovement();
-        playerInputs.Player.Jump.started += cxt => OnJumpStart();
-        playerInputs.Player.Jump.performed += cxt => OnHeldJump();
-        playerInputs.Player.Jump.canceled += cxt => OnLand();
         playerInputs.Player.WeaponSwap.performed += cxt => OnSwapEvent.Invoke();
         playerInputs.Player.Shoot.performed += cxt => isFiring = true;
         playerInputs.Player.Shoot.canceled += cxt => isFiring = false;
         playerInputs.Player.SpecialAbility.performed += cxt => OnSpecialEvent.Invoke();
-
-
+        
         //playerInputs.Player.Shoot.performed += cxt => isFiring = true;
         //playerInputs.Player.Shoot.canceled += cxt => isFiring = false;
         //playerInputs.Player.Reload.performed += cxt => isReloading = true;
-        if (OnJumpEvent == null) OnJumpEvent = new UnityEvent();
-        if (OnLandEvent == null) OnLandEvent = new UnityEvent();
+
         if (OnShootEvent == null) OnShootEvent = new UnityEvent();
         if (OnSpecialEvent == null) OnSpecialEvent = new UnityEvent();
-
-        //if (OnFallEvent == null) OnFallEvent = new UnityEvent();
-        //if (OnDashEvent == null) OnDashEvent = new UnityEvent();
         cursorDirection = Vector3.right;
         UpdateScreenBounds();
     }
@@ -97,13 +83,7 @@ public class PlayerInput : MonoBehaviour
         
         if(isFiring)
             OnShootEvent.Invoke();
-            
-        
-        //if (isFiring && Time.time > rateOfFire + lastShot && ammoAmount > 0)
-        //{
-        //    OnShootEvent.Invoke();
-        //}
-        
+
         AdjustCursorPosition();
         cursorDirectionRotation = MyUtils.GetAngleFromVectorFloat(cursorDirection.normalized);
     }
@@ -133,18 +113,4 @@ public class PlayerInput : MonoBehaviour
     private void SetMovement(Vector2 movement) => directionAxis = movement;
 	
     private void ResetMovement() => directionAxis = Vector3.zero;
-
-    private void OnJumpStart()
-    {
-        OnJumpEvent.Invoke();
-    } 
-	
-    private void OnHeldJump()
-    {
-    }
-
-    private void OnLand()
-    {
-        OnLandEvent.Invoke();
-    }
 }

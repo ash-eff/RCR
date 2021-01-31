@@ -9,11 +9,8 @@ public class Projectile : MonoBehaviour
     [SerializeField] private GameObject impactPrefab;
     [SerializeField] private float speed;
     [SerializeField] private Rigidbody2D rb2d;
-    [SerializeField] private SpriteRenderer spr;
 
     public int damageAmount = 1;
-    public Weapon shotFromWeapon;
-    public float delayTime;
 
     private void Start()
     {
@@ -23,7 +20,6 @@ public class Projectile : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
         // 8 is the obstacle layer
         if (other.gameObject.layer == 8)
         {

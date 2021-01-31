@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5057355355916856766}
   - component: {fileID: 4563179654204794847}
-  - component: {fileID: 2693419248191471433}
+  - component: {fileID: -4866110364528171435}
   m_Layer: 0
   m_Name: BluePistol
   m_TagString: Untagged
@@ -217,7 +217,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2693419248191471433
+--- !u!114 &-4866110364528171435
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,25 +226,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 8049788475362240570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf8c57d9dcc1af4b81144780d02cdb2, type: 3}
+  m_Script: {fileID: 11500000, guid: 37d4d8d13d0b7114f9dfc48131c61009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isOwned: 0
+  isEquipped: 0
   name: Blue Pistol
-  description: A Pistol
+  description: 
+  isUsingSpecial: 0
+  isSpecialCooledDown: 0
   artwork: {fileID: 21300000, guid: 905e3b503261cb94ca39b3aa5cad084e, type: 3}
   damage: 1
-  rateOfFire: 0.5
-  reloadTime: 1
+  rateOfFire: 0.8
   lastShot: 0
-  totalAmmo: 6
-  currentAmmo: 6
+  totalAmmo: 24
+  currentAmmo: 24
+  cooldownTimer: 45
+  currentCooldownTimer: 0
+  minAmmoForSpecial: 10
   gunSprite: {fileID: 4817651466633877257}
   gunPosition: {x: 0, y: 0}
   muzzlePosition: {fileID: 5092788269158447795}
-  projectilePrefab: {fileID: 8979793350697907821, guid: 7f18ac61a1fe82a4eb01391649244349,
+  bulletPrefab: {fileID: 7921382562295924010, guid: 96f191e81caa0014bb89bb10723f4e8e,
     type: 3}
-  shellPrefab: {fileID: 464416350406689388, guid: 4eaab90c1e883e846b20d8cc4e5bcff4,
-    type: 3}
-  impactPrefab: {fileID: 706778387805104156, guid: 6061d1652db8cbc409632dc249b4f4cf,
-    type: 3}
+  cam: {fileID: 0}

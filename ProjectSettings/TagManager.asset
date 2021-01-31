@@ -9,6 +9,9 @@ TagManager:
   - PlayerBullet
   - PlayerPitTrigger
   - Hazard
+  - WeaponPickUp
+  - AmmoPickUp
+  - CoinPickUp
   layers:
   - Default
   - TransparentFX

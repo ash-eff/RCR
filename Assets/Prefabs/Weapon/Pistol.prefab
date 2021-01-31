@@ -230,21 +230,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOwned: 0
+  isEquipped: 0
   name: Pistol
   description: A Pistol
+  isUsingSpecial: 0
+  isSpecialCooledDown: 0
   artwork: {fileID: 21300000, guid: 81cf9d940e8d19446aeb7a699b04c55b, type: 3}
   damage: 1
   rateOfFire: 0.3
-  reloadTime: 1
   lastShot: 0
   totalAmmo: 150
   currentAmmo: 150
+  cooldownTimer: 0
+  currentCooldownTimer: 0
+  minAmmoForSpecial: 0
   gunSprite: {fileID: 5039490806847305650}
   gunPosition: {x: 0, y: 0}
   muzzlePosition: {fileID: 4726903538802219528}
-  projectilePrefab: {fileID: 8979793350697907821, guid: 7f18ac61a1fe82a4eb01391649244349,
+  bulletPrefab: {fileID: 7921382562295924010, guid: 5358d5e6c96615d42901ebc77f38f72f,
     type: 3}
-  shellPrefab: {fileID: 464416350406689388, guid: 4eaab90c1e883e846b20d8cc4e5bcff4,
-    type: 3}
-  impactPrefab: {fileID: 706778387805104156, guid: 6061d1652db8cbc409632dc249b4f4cf,
-    type: 3}
+  cam: {fileID: 0}

@@ -64,7 +64,7 @@ public class EnemyHandler : MonoBehaviour
     {
         if(OnEnemyDeath == null) OnEnemyDeath = new UnityEvent();
         enemySpawner = FindObjectOfType<EnemySpawner>();
-        //OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
+        OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
         maxAmmo = ammoAmount;
         player = FindObjectOfType<PlayerManager>();
         stateMachine = new StateMachine<EnemyHandler>(this);
