@@ -12,6 +12,8 @@ public class BulletShotgun : Bullet
         Debug.Log("Shotgun");
         for (int i = 0; i < blastShotAmount; i++)
         {
+            var offset = Random.Range(-4, 4);
+            rotation += offset;
             var angleOffset = blastAngle / (blastShotAmount - 1f);
             var startingAngle = rotation - blastAngle / 2f;
             var newAngle = startingAngle + i * angleOffset;
