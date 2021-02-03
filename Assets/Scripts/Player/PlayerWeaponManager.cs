@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class PlayerWeaponManager : MonoBehaviour
 {
 	[SerializeField] private Weapon currentWeapon;
+	[SerializeField] private Weapon startingWeapon;
 	[SerializeField] private Transform weaponInventory;
 	[SerializeField] private Weapon[] allWeapons;
 	[SerializeField] private Image weaponImage;
@@ -33,6 +34,7 @@ public class PlayerWeaponManager : MonoBehaviour
 		{
 			availableWeaponsDictionary.Add(weapon.name, weapon);
 		}
+		CollectNewWeapon(startingWeapon);
 	}
 
 	private void Update()
@@ -185,7 +187,7 @@ public class PlayerWeaponManager : MonoBehaviour
 		}
 
 		// rotate the weapon
-		weaponTransform.rotation = Quaternion.Euler(0,0, rot);
+		weaponTransform.rotation = Quaternion.Euler(45,0, rot);
 		
 		
 		// set the sprite order, behind or in front of the player based on cursor position

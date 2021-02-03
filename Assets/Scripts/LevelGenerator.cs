@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SocialPlatforms;
 using Random = UnityEngine.Random;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class LevelGenerator : MonoBehaviour
 {
     public enum GridSpace
@@ -16,34 +17,47 @@ public class LevelGenerator : MonoBehaviour
         Wall,
         Obstacle
     };
-
-    public GridSpace[,] grid;
-    public int roomHeight, roomWidth;
+ 
     [SerializeField] private Vector2 roomSizeWorldUnits = new Vector2(30, 30);
-    [SerializeField] private float worldUnitsInOneGridCell = 1;
+    [SerializeField] private Vector2 worldUnitsInOneGridCell = new Vector2(1f, 1.44f);
+    [UnityEngine.Range(0.25f, 1.0f)][SerializeField] private float chanceWalkerChangeDir = 0.6f;
+    [SerializeField] private GameObject wallObj, floorObj, emptyObj, obstacleObj;
+
+    public UnityEvent OnLevelLoaded;
+    
     struct Walker
     {
-        public Vector2 dir;
-        public Vector2 pos;
+        public Vector3 dir;
+        public Vector3 pos;
     }
 
     private List<Walker> walkers;
     private List<GameObject> tiles = new List<GameObject>();
-    [UnityEngine.Range(0.25f, 1.0f)][SerializeField] private float chanceWalkerChangeDir = 0.5f;
+    private List<Vector3> floorPositions = new List<Vector3>();
+    private GridSpace[,] grid;
+    private Vector3 playerSpawnPoint;
+    
     private float chanceWalkerSpawn = 0.05f;
     private float chanceWalkerDestroy = 0.05f;
-    private int maxWalkers = 10;
     private float percentToFill = 0.2f;
-    [SerializeField] private GameObject wallObj, floorObj, emptyObj, obstacleObj;
 
-    //private void Start()
-    //{
-    //    SetUp();
-    //    CreateFloors();
-    //    CreateWalls();
-    //    RemoveSingleWalls();
-    //    SpawnLevel();
-    //}
+    private int roomHeight, roomWidth;
+    private int maxWalkers = 10;
+
+    public GridSpace[,] GetGrid => grid;
+    public int GetRoomHeight => roomHeight;
+    public int GetRoomWidth => roomWidth;
+    public Vector3 GetPlayerSpawnPoint => playerSpawnPoint;
+
+    private void Awake()
+    {
+        if(OnLevelLoaded == null) OnLevelLoaded = new UnityEvent();
+    }
+
+    private void Start()
+    {
+        GenerateLevel();
+    }
     
     public void GenerateLevel()
     {
@@ -51,7 +65,11 @@ public class LevelGenerator : MonoBehaviour
         SetUp();
         CreateFloors();
         CreateWalls();
-        RemoveSingleWalls();
+        DealWithSingleWalls();
+        GenerateListOfFloorPositions();
+        SetPlayerSpawnPoint();
+        // SetEnemySpawnPoints();
+        // SetItemSpawnPoints();
         SpawnLevel();
     }
 
@@ -65,6 +83,7 @@ public class LevelGenerator : MonoBehaviour
             }
             
             tiles.Clear();
+            floorPositions.Clear();
         }
         
         tiles = new List<GameObject>();
@@ -73,8 +92,8 @@ public class LevelGenerator : MonoBehaviour
     private void SetUp()
     {
         // find grid size
-        roomHeight = Mathf.RoundToInt(roomSizeWorldUnits.x / worldUnitsInOneGridCell);
-        roomWidth = Mathf.RoundToInt(roomSizeWorldUnits.y / worldUnitsInOneGridCell);
+        roomHeight = Mathf.RoundToInt(roomSizeWorldUnits.x / worldUnitsInOneGridCell.x);
+        roomWidth = Mathf.RoundToInt(roomSizeWorldUnits.y / worldUnitsInOneGridCell.y);
         
         // create grid
         grid = new GridSpace[roomWidth, roomHeight];
@@ -88,7 +107,7 @@ public class LevelGenerator : MonoBehaviour
         walkers = new List<Walker>();
         Walker newWalker = new Walker();
         newWalker.dir = RandomDirection();
-        Vector2 spawnPos = new Vector2(Mathf.RoundToInt(roomWidth / 2.0f), Mathf.RoundToInt(roomHeight / 2.0f));
+        Vector3 spawnPos = new Vector3(Mathf.RoundToInt(roomWidth / 2.0f), 0f, Mathf.RoundToInt(roomHeight / 2.0f));
         newWalker.pos = spawnPos;
         walkers.Add(newWalker);
     }
@@ -100,7 +119,7 @@ public class LevelGenerator : MonoBehaviour
         {
             // create floor at every position of walker
             foreach (Walker myWalker in walkers)
-                grid[(int) myWalker.pos.x, (int) myWalker.pos.y] = GridSpace.Floor;
+                grid[(int) myWalker.pos.x, (int) myWalker.pos.z] = GridSpace.Floor;
             
             // chance: destroy a walker
             int numberChecks = walkers.Count;
@@ -146,7 +165,7 @@ public class LevelGenerator : MonoBehaviour
                 Walker thisWalker = walkers[i];
                 // clamp x,y to leave a 1 space border: leave room for walls
                 thisWalker.pos.x = Mathf.Clamp(thisWalker.pos.x, 1, roomWidth - 2);
-                thisWalker.pos.y = Mathf.Clamp(thisWalker.pos.y, 1, roomWidth - 2);
+                thisWalker.pos.z = Mathf.Clamp(thisWalker.pos.z, 1, roomWidth - 2);
                 walkers[i] = thisWalker;
             }
             
@@ -183,7 +202,7 @@ public class LevelGenerator : MonoBehaviour
         }
     }
     
-    private void RemoveSingleWalls(){
+    private void DealWithSingleWalls(){
         //loop though every grid space
         for (int x = 0; x < roomWidth-1; x++)
         {
@@ -225,6 +244,11 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    private void SetPlayerSpawnPoint()
+    {
+        playerSpawnPoint = floorPositions[0];
+    }
+
     private void SpawnLevel()
     {
         for (int x = 0; x < roomWidth; x++)
@@ -248,9 +272,28 @@ public class LevelGenerator : MonoBehaviour
                 }
             }
         }
+        
+        OnLevelLoaded.Invoke();
     }
 
-    private Vector2 RandomDirection()
+    private void GenerateListOfFloorPositions()
+    {
+        Vector3 offset = new Vector3(roomSizeWorldUnits.x / 2f, 0f, roomSizeWorldUnits.y / 2f);
+        
+        for (int x = 0; x < roomWidth; x++)
+        {
+            for (int y = 0; y < roomHeight; y++)
+            {
+                if (grid[x, y] == GridSpace.Floor)
+                {
+                    Vector3 floorWorldPosition = new Vector3(x * worldUnitsInOneGridCell.x,0f,y * worldUnitsInOneGridCell.y) - offset;
+                    floorPositions.Add(floorWorldPosition);
+                }
+            }
+        }
+    }
+
+    private Vector3 RandomDirection()
     {
         // pick int between 0 and 3
         int choice = Mathf.FloorToInt(Random.value * 3.99f);
@@ -258,13 +301,13 @@ public class LevelGenerator : MonoBehaviour
         switch (choice)
         {
             case 0:
-                return Vector2.down;
+                return Vector3.back;
             case 1:
-                return Vector2.left;
+                return Vector3.left;
             case 2:
-                return Vector2.up;
+                return Vector3.forward;
             default:
-                return Vector2.right;
+                return Vector3.right;
         }
     }
 
@@ -281,8 +324,8 @@ public class LevelGenerator : MonoBehaviour
     private void Spawn(float x, float y, GameObject toSpawn)
     {
         // find position to spawn
-        Vector2 offset = roomSizeWorldUnits / 2.0f;
-        Vector2 spawnPos = new Vector2(x,y) * worldUnitsInOneGridCell - offset;
+        Vector3 offset = new Vector3(roomSizeWorldUnits.x / 2f, 0f, roomSizeWorldUnits.y / 2f);
+        Vector3 spawnPos = new Vector3(x * worldUnitsInOneGridCell.x,0,y * worldUnitsInOneGridCell.y) - offset;
         // spawn object
         GameObject obj = Instantiate(toSpawn, spawnPos, Quaternion.identity);
         LevelTile lt = obj.GetComponent<LevelTile>();

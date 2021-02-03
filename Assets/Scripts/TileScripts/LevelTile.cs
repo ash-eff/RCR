@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class LevelTile : MonoBehaviour
 {
     public Vector2 gridPos;
+    public Sprite[] availableSprites;
     public LevelGenerator levelGenerator;
-    public SpriteRenderer bottomSprite;
+    public SpriteRenderer tileSprite;
     public Vector2 SetGridPos
     {
         set => gridPos = value;

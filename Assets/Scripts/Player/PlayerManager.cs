@@ -1,17 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Ash.MyUtils;
+
 using Ash.StateMachine;
-using Microsoft.SqlServer.Server;
-using TMPro;
-using Unity.Mathematics;
-using UnityEditor;
+
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
+
 
 public class PlayerManager : MonoBehaviour
 {

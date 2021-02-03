@@ -8,37 +8,25 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private float lerpSpeed, shakeDuration, shakeMagnitude;
     [SerializeField] private Camera mainCam;
-
     [SerializeField] private PlayerManager player;
-    //private Vector3 targetPos;
-    //[SerializeField] private List<Transform> targets;
+    private bool followPlayer;
 
     private void FixedUpdate()
     {
-        //Vector3 centerPoint = GetCenterPoint();
-        FollowTarget(player.transform.position);
+        if(followPlayer)
+            FollowTarget(player.transform.position);
     }
-
-    //private Vector3 GetCenterPoint()
-    //{
-    //    var bounds = new Bounds(targets[0].position, Vector3.zero);
-    //    bounds.Encapsulate(targets[1].position);
-//
-    //    return bounds.center;
-    //}
 
     void FollowTarget(Vector3 _target)
     {
-        //targetPos = new Vector3(_target.x, _target.y,   -10f);
-        //var originPos = targets[0].position;
-        //transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.fixedDeltaTime);
-        //transform.position = _target;
-        //Vector2 clampedPos = transform.position;
-        //clampedPos.x = Mathf.Clamp(transform.position.x, originPos.x - 2, originPos.x + 2);
-        //clampedPos.y = Mathf.Clamp(transform.position.y, originPos.y - 4, originPos.y + 4);
-        //transform.position = clampedPos;
-        
         transform.position = Vector3.Lerp(transform.position, _target, lerpSpeed * Time.fixedDeltaTime);
+    }
+
+    public void PlayerHasSpawned()
+    {
+        player = FindObjectOfType<PlayerManager>();
+        transform.position = player.transform.position;
+        followPlayer = true;
     }
     
     public void CameraShake()

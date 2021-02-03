@@ -8,14 +8,14 @@ public class Projectile : MonoBehaviour
     [SerializeField] public float destroyAfter;
     [SerializeField] private GameObject impactPrefab;
     [SerializeField] private float speed;
-    [SerializeField] private Rigidbody2D rb2d;
+    [SerializeField] private Rigidbody rb;
 
     public int damageAmount = 1;
 
     private void Start()
     {
         Destroy(gameObject, destroyAfter);  
-        rb2d.velocity = transform.right * speed;
+        rb.velocity = transform.forward * speed;
     }
     
     private void OnTriggerEnter2D(Collider2D other)

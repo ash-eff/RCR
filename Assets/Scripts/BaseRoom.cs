@@ -131,23 +131,4 @@ public class BaseRoom : MonoBehaviour
         GameObject enemy = Instantiate(enemySpawnPrefab, transform.position, Quaternion.identity);
         enemy.GetComponent<EnemySpawn>().spawnedFrom = this;
     }
-
-    public void SpawnKey()
-    {
-        roomKey.SetActive(true);
-        gameManager.RoomUnlocked();
-    }
-    
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("PlayerRoomTrigger"))
-        {
-            if (!hasBeenVisited)
-            {
-                Invoke("SpawnEnemy", 1f);
-            }
-            
-            roomManager.CurrentRoom = this;
-        }
-    }
 }

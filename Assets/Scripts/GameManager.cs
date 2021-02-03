@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
     [SerializeField] private GameObject winGameScreen;
     [SerializeField] private GameObject pauseScreen;
-    public int numberOfRoomsToUnlock;
-    private int numberOfRoomsUnlocked;
+    [SerializeField] private LevelGenerator levelGenerator;
+    [SerializeField] private GameObject loadingScreen;
     private bool isPaused = false;
 
     private void Update()
@@ -37,13 +38,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void RoomUnlocked()
+    public void BeginGame()
     {
-        numberOfRoomsUnlocked++;
-        if (numberOfRoomsUnlocked >= numberOfRoomsToUnlock)
-        {
-            Cursor.visible = true;
-            winGameScreen.SetActive(true);
-        }
+        Instantiate(player, levelGenerator.GetPlayerSpawnPoint, Quaternion.identity);
+        loadingScreen.SetActive(false);    
     }
 }

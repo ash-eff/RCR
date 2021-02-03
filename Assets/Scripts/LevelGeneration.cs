@@ -165,7 +165,7 @@ public class LevelGeneration : MonoBehaviour
 			}
 			else
 			{
-				gameManager.numberOfRoomsToUnlock++;
+				//gameManager.numberOfRoomsToUnlock++;
 			}
 			baseRoom.top = room.doorTop;
 			baseRoom.bottom = room.doorBottom;
