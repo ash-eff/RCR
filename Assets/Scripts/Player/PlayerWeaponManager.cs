@@ -21,7 +21,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
 	private int inventoryIndex = -1;
 	private PlayerInput playerInput;
-	private PlayerMessageHandler messageHandler;
+	//private PlayerMessageHandler messageHandler;
 
 	private Dictionary<string, Weapon> availableWeaponsDictionary = new Dictionary<string, Weapon>();
 	private Dictionary<string, Weapon> ownedWeaponsDictionary = new Dictionary<string, Weapon>();
@@ -29,7 +29,7 @@ public class PlayerWeaponManager : MonoBehaviour
 	private void Awake()
 	{
 		playerInput = GetComponent<PlayerInput>();
-		messageHandler = GetComponent<PlayerMessageHandler>();
+		//messageHandler = GetComponent<PlayerMessageHandler>();
 		foreach (Weapon weapon in allWeapons) 
 		{
 			availableWeaponsDictionary.Add(weapon.name, weapon);
@@ -118,7 +118,7 @@ public class PlayerWeaponManager : MonoBehaviour
 		if (ownedWeaponsDictionary.ContainsKey(weapon.name))
 			return;
 
-		messageHandler.CreateFloatingText(weapon.name);
+		//messageHandler.CreateFloatingText(weapon.name);
 		// pull weapon from the available inventory of weapons
 		Weapon newWeapon = availableWeaponsDictionary[weapon.name];
 		newWeapon.gunPosition = newWeapon.transform.localPosition;
@@ -139,7 +139,7 @@ public class PlayerWeaponManager : MonoBehaviour
 	public void CollectAmmo(int ammoAmount)
 	{
 		currentWeapon.currentAmmo += ammoAmount;
-		messageHandler.CreateFloatingText("+ " + ammoAmount.ToString() + " ammo");
+		//messageHandler.CreateFloatingText("+ " + ammoAmount.ToString() + " ammo");
 	}
 
 	#endregion

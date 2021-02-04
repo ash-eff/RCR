@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-	public StateMachine<PlayerManager> stateMachine;
-	
+	public StateMachine<PlayerManager> stateMachine; 
+	private MessageSystem messageSystem;
 	[SerializeField] private float runSpeed = 40f;
 	
 	private PlayerAnimationController animController;
@@ -29,6 +29,12 @@ public class PlayerManager : MonoBehaviour
 		hazardTrigger = GetComponentInChildren<PlayerHazardTrigger>();
 		stateMachine = new StateMachine<PlayerManager>(this);
 		stateMachine.ChangeState(playerBaseState);
+		messageSystem = FindObjectOfType<MessageSystem>();
+	}
+
+	private void Start()
+	{
+		messageSystem.DisplayMessage("Find the missing VHS tape.", 2);
 	}
 
 	private void Update()

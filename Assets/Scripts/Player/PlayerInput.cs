@@ -10,11 +10,7 @@ public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private Transform cursor;
     [SerializeField] private float edgeOffsetX, edgeOffsetY;
-    [SerializeField] private TextMeshProUGUI mousePosText;
-    [SerializeField] private TextMeshProUGUI playerPosText;
-    [SerializeField] private TextMeshProUGUI directiontoMouseText;
 
-    
     private float idleTimer = 10f;
     private PlayerInputs playerInputs;
     private Vector2 directionAxis;
@@ -99,16 +95,8 @@ public class PlayerInput : MonoBehaviour
         var mousePos = MyUtils.GetMouseWorldPositionWithZ();
         var convertedMousePos = new Vector3(mousePos.x, 0, mousePos.z + mousePos.y);
         var aimDirection = (convertedMousePos - originPos).normalized;
-        mousePosText.text = "Mouse Position X: " + mousePos.x.ToString("000.00")
-                                                 + " Y: " + (mousePos.z + mousePos.y).ToString("000.00");
-        playerPosText.text = "Origin Position X: " + originPos.x.ToString("000.00") + " Z: " +
-                        originPos.z.ToString("000.00");
-        directiontoMouseText.text = "Direction X: " + aimDirection.x.ToString("0.0") + " Y: " + aimDirection.y.ToString("0.0") + " Z: " +
-                                    aimDirection.z.ToString("0.0");
+
         cursor.transform.position = convertedMousePos;
-        
-        //Debug.DrawLine(originPos, cursor.transform.position, Color.green);
-          
         cursorDirection = new Vector2(aimDirection.x, aimDirection.z);
 
         //Vector3 clampedPos = cursor.transform.position;
