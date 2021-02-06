@@ -237,7 +237,7 @@ public class LevelGenerator : MonoBehaviour
                     }
                     if (allFloors)
                     {
-                        grid[x,y] = GridSpace.Obstacle;
+                        grid[x,y] = GridSpace.Floor;
                     }
                 }
             }

@@ -39,7 +39,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
 	private void Update()
 	{
-		PositionWeaponHolder(playerInput.GetCursorDirection.x, playerInput.GetRotationToCursor);
+		PositionWeaponHolder(playerInput.GetCursorDirection.x, playerInput.GetAngleToCursor);
 		if (currentWeapon != null)
 		{
 			if (!currentWeapon.isSpecialCooledDown)
@@ -97,7 +97,7 @@ public class PlayerWeaponManager : MonoBehaviour
 	{
 		if (currentWeapon != null)
 		{
-			currentWeapon.FireWeapon(playerInput.GetRotationToCursor);
+			currentWeapon.FireWeapon(playerInput.GetAngleToCursor);
 		}
 	}
 
@@ -177,12 +177,12 @@ public class PlayerWeaponManager : MonoBehaviour
 		// put weapon to the right or left of player based on cursor position
 		if (xDir > 0)
 		{
-			weaponTransform.localPosition = new Vector3(weaponGunPosition.x, weaponGunPosition.y, 0f);
+			weaponTransform.localPosition = new Vector3(weaponGunPosition.x, weaponGunPosition.y, weaponGunPosition.z);
 			weaponTransform.localScale = new Vector3(1, 1, 1);
 		}
 		if (xDir < 0)
 		{
-			weaponTransform.localPosition = new Vector3(-weaponGunPosition.x, weaponGunPosition.y, 0f);
+			weaponTransform.localPosition = new Vector3(-weaponGunPosition.x, weaponGunPosition.y, weaponGunPosition.z);
 			weaponTransform.localScale = new Vector3(1, -1, 1);
 		}
 
@@ -191,14 +191,14 @@ public class PlayerWeaponManager : MonoBehaviour
 		
 		
 		// set the sprite order, behind or in front of the player based on cursor position
-		if (rot > 0f && rot < 180f)
-		{
-			currentWeapon.gunSprite.sortingOrder = 3;
-		}
-		else
-		{
-			currentWeapon.gunSprite.sortingOrder = 5;
-		}
+		//if (rot > 0f && rot < 180f)
+		//{
+		//	currentWeapon.gunSprite.sortingOrder = -1;
+		//}
+		//else
+		//{
+		//	currentWeapon.gunSprite.sortingOrder = 0;
+		//}
 	}
 	
 	#endregion

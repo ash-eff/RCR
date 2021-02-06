@@ -7,7 +7,7 @@ public class BulletShotgun : Bullet
     public int blastShotAmount;
     public int blastAngle;
     
-    public override void FireBullet(float rotation, Vector2 gunPosition)
+    public override void FireBullet(float rotation, Vector3 gunPosition)
     {
         Debug.Log("Shotgun");
         for (int i = 0; i < blastShotAmount; i++)
@@ -17,7 +17,7 @@ public class BulletShotgun : Bullet
             var angleOffset = blastAngle / (blastShotAmount - 1f);
             var startingAngle = rotation - blastAngle / 2f;
             var newAngle = startingAngle + i * angleOffset;
-            FireProjectile(newAngle);
+            //FireProjectile(newAngle);
         }
         EjectShell(gunPosition);
     }

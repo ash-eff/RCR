@@ -16,7 +16,7 @@ public class PlayerInput : MonoBehaviour
     private Vector2 directionAxis;
     private Vector3 screenBounds;
     private Vector3 cursorDirection;
-    private float cursorDirectionRotation;
+    public float angleToCursor;
     private bool isFiring = false;
     public UnityEvent OnIdleEvent;
     public UnityEvent OnWakeEvent;
@@ -27,7 +27,7 @@ public class PlayerInput : MonoBehaviour
     private bool isIdle;
     public Vector2 GetDirectionAxis => directionAxis;
     public Vector3 GetCursorDirection => cursorDirection.normalized;
-    public float GetRotationToCursor => cursorDirectionRotation;
+    public float GetAngleToCursor => angleToCursor;
     public bool CheckIsIdle => isIdle;
 
     private void OnEnable()
@@ -56,7 +56,7 @@ public class PlayerInput : MonoBehaviour
 
         if (OnShootEvent == null) OnShootEvent = new UnityEvent();
         if (OnSpecialEvent == null) OnSpecialEvent = new UnityEvent();
-        cursorDirection = Vector3.right;
+        cursorDirection = Vector3.forward;
         UpdateScreenBounds();
     }
 
@@ -86,7 +86,7 @@ public class PlayerInput : MonoBehaviour
             OnShootEvent.Invoke();
 
         AdjustCursorPosition();
-        cursorDirectionRotation = MyUtils.GetAngleFromVectorFloat(cursorDirection.normalized);
+        angleToCursor = MyUtils.GetAngleFromVectorFloat3D(cursorDirection.normalized);
     }
 
     private void AdjustCursorPosition()
@@ -97,8 +97,8 @@ public class PlayerInput : MonoBehaviour
         var aimDirection = (convertedMousePos - originPos).normalized;
 
         cursor.transform.position = convertedMousePos;
-        cursorDirection = new Vector2(aimDirection.x, aimDirection.z);
-
+        cursorDirection = new Vector3(aimDirection.x, 0f, aimDirection.z);
+        ;
         //Vector3 clampedPos = cursor.transform.position;
         //clampedPos.x = Mathf.Clamp(cursor.transform.position.x, originPos.x - screenBounds.x, originPos.x + screenBounds.x);
         //clampedPos.z = Mathf.Clamp(cursor.transform.position.z, originPos.z - screenBounds.y, originPos.z + screenBounds.y);

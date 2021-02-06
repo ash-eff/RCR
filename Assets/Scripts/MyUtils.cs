@@ -103,12 +103,22 @@ namespace Ash.MyUtils
             return worldIntPosition;
         }
 
-        public static float GetLegalAngle(float angle)
+        public static float GetLegalAngle360(float angle)
         {
             if (angle < 0)
                 return 360 - Mathf.Abs(angle);
             if (angle > 360)
                 return angle - 360;
+
+            return angle;
+        }
+        
+        public static float GetLegalAngle180(float angle)
+        {
+            if (angle < 0)
+                return 180 - Mathf.Abs(angle);
+            if (angle > 180)
+                return angle - 180;
 
             return angle;
         }
@@ -124,6 +134,23 @@ namespace Ash.MyUtils
 
             //Debug.DrawLine(startLocation, endLocation, Color.red, .25f);
             return false;
+        }
+        
+        public static Vector2 GetSpriteXYRotationFromZAngle(float angle)
+        {
+            var vecFromAngle = GetVectorFromAngle(angle);
+            var xSpriteRot = vecFromAngle.x * 45f;
+            var ySpriteRot = vecFromAngle.y * -45f;
+
+            return new Vector2(xSpriteRot, ySpriteRot);
+        }
+        
+        public static Vector3 GetSpriteXYRotationFromYAngle(float angle)
+        {
+            var ySpriteRot = -angle;
+            var zSpriteRot = -angle;
+
+            return new Vector3(45f, ySpriteRot, zSpriteRot);
         }
         
         public static Vector3 GetRandomDir() {
@@ -156,6 +183,14 @@ namespace Ash.MyUtils
 
             return n;
         }
+        
+        public static float GetAngleFromVectorFloat3D(Vector3 dir) {
+            dir = dir.normalized;
+            float n = Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg;
+            if (n < 0) n += 360;
+
+            return n;
+        }
 
         public static int GetAngleFromVector(Vector3 dir) {
             dir = dir.normalized;
@@ -180,6 +215,11 @@ namespace Ash.MyUtils
 
         public static Vector3 ApplyRotationToVector(Vector3 vec, float angle) {
             return Quaternion.Euler(0,0,angle) * vec;
+        }
+        
+        public static Vector3 SpriteZAdjuster3D(Vector3 transPos)
+        {
+            return new Vector3(transPos.x, transPos.y, transPos.y - .1f);
         }
     }
 }

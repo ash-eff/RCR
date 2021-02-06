@@ -46,11 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0920b929aa68f43baeae38d6a8dd23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyAfter: 2
+  destroyAfter: 30
   impactPrefab: {fileID: 706778387805104156, guid: 6061d1652db8cbc409632dc249b4f4cf,
     type: 3}
   speed: 14
   rb: {fileID: 1589148674674003752}
+  spr: {fileID: 2056099785524195543}
   damageAmount: 1
 --- !u!136 &6172427063071127983
 CapsuleCollider:
@@ -60,11 +61,11 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2056099785354881675}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.16
   m_Height: 0.63
-  m_Direction: 0
+  m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1589148674674003752
 Rigidbody:
@@ -153,7 +154,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 0
   m_Sprite: {fileID: 1115682805434658061, guid: 4e191eabeb0a5f941a5f5d7416a09b2a,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -13,10 +13,10 @@ public class PlayerAnimationController : MonoBehaviour
     private static readonly int XDir = Animator.StringToHash("xDir");
     private static readonly int YDir = Animator.StringToHash("yDir");
 
-    public void SetSpriteFacingDirection(Vector2 direction)
+    public void SetSpriteFacingDirection(Vector3 direction)
     {
         anim.SetFloat(XDir, direction.x);
-        anim.SetFloat(YDir, direction.y);
+        anim.SetFloat(YDir, direction.z);
     }
 
     public  void SpriteFlip(float xDir)

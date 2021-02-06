@@ -28,7 +28,7 @@ public class Weapon : MonoBehaviour
 
 
     public SpriteRenderer gunSprite;
-    public Vector2 gunPosition;
+    public Vector3 gunPosition;
     public Transform muzzlePosition;
     public GameObject bulletPrefab;
 
