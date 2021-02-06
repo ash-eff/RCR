@@ -29,6 +29,7 @@ public class LevelTile : MonoBehaviour
     {
         CheckNeighbors();
         AssignSprite();
+        SetColliderSize();
     }
 
     protected virtual void CheckNeighbors()
@@ -36,6 +37,10 @@ public class LevelTile : MonoBehaviour
     }
 
     protected virtual void AssignSprite()
+    {
+    }
+
+    protected virtual void SetColliderSize()
     {
     }
 }

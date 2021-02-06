@@ -42,9 +42,10 @@ public class CameraController : MonoBehaviour
             while (elapsed < duration)
             {
                 float x = Random.Range(-1, 1) * magnitude;
+                float y = Random.Range(-1, 1) * magnitude;
                 float z = Random.Range(-1, 1) * magnitude;
 
-                mainCam.transform.localPosition = new Vector3(originalPos.x + x, originalPos.y, originalPos.z + z);
+                mainCam.transform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z + z);
 
                 elapsed += Time.deltaTime;
 
@@ -68,9 +69,11 @@ public class CameraController : MonoBehaviour
             while (elapsed < duration)
             {
                 float x = Random.Range(-1, 1) * magnitude;
+                float y = Random.Range(-1, 1) * magnitude;
+
                 float z = Random.Range(-1, 1) * magnitude;
 
-                mainCam.transform.localPosition = new Vector3(originalPos.x + x, originalPos.y, originalPos.z + z);
+                mainCam.transform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z + z);
 
                 elapsed += Time.deltaTime;
 

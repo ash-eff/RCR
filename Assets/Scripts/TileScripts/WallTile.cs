@@ -12,6 +12,17 @@ public class WallTile : LevelTile
     public Vector2 rightTile;
     public Vector2 downTile;
     public Vector2 leftTile;
+    public BoxCollider boxCollider;
+    
+    private Vector3 defaultColliderSize = new Vector3(2f, 1.4f, 2.828f);
+    private Vector3 topWallColliderSize = new Vector3(2f, 1.4f, 2.114f);
+    private Vector3 topWallOffset = new Vector3(0, 0f, -.714f);
+    private Vector3 bottomWallColliderSize = new Vector3(2f, 1.4f, 2.114f);
+    private Vector3 bottomWallOffset = new Vector3(0, 0f, .714f);
+    private Vector3 singleHorizontalRowWallColliderSize  = new Vector3(2f, 1.4f, 2.121f);
+    private Vector3 singleWallOffset = new Vector3(0, 0f, -.3535f);
+
+    
     protected override void CheckNeighbors()
     {
         var startingPos = new Vector2((int)gridPos.x, (int)gridPos.y);
@@ -74,7 +85,6 @@ public class WallTile : LevelTile
         {
             // top center 1
             tileSprite.sprite = availableSprites[1];
-
         }
         
         else if (downNeighbor && leftNeighbor && upNeighbor)
@@ -147,6 +157,39 @@ public class WallTile : LevelTile
         {
             // wide right 12
             tileSprite.sprite = availableSprites[14];
+        }
+    }
+    
+    protected override void SetColliderSize()
+    {
+        // if there is no top neighbors but has bottom neighbors
+
+        if (!upNeighbor && downNeighbor)
+        {
+            boxCollider.center = singleWallOffset;
+            boxCollider.size = singleHorizontalRowWallColliderSize;
+        }
+        
+        // if there are no bottom neighbors but has top neighbors
+        else if (upNeighbor && !downNeighbor) 
+        {
+            boxCollider.center = Vector3.zero;
+            boxCollider.size = defaultColliderSize;
+        }
+        
+        // if there are no top or bottom neighbors
+        else if(!upNeighbor && !downNeighbor)
+
+        {
+            boxCollider.center = singleWallOffset;
+            boxCollider.size = singleHorizontalRowWallColliderSize;
+        }
+        
+        // default
+        else
+        {
+            boxCollider.center = Vector3.zero;
+            boxCollider.size = defaultColliderSize;
         }
     }
 }
