@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed3b17be5ec780429a5d01b2c5a0361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpSpeed: 7
+  lerpSpeed: 10
   shakeDuration: 0.2
-  shakeMagnitude: 0.1
+  shakeMagnitude: 0.05
   mainCam: {fileID: 7202853115342398724}
   player: {fileID: 0}
 --- !u!1 &7202853115342398727
@@ -108,7 +108,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 8.78
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

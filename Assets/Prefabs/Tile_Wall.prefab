@@ -60,9 +60,6 @@ MonoBehaviour:
   - {fileID: -4025694862184268564, guid: 8fd41ef86d48f3a46baa8a7a2c31ceb1, type: 3}
   - {fileID: -3735848003610817027, guid: 8fd41ef86d48f3a46baa8a7a2c31ceb1, type: 3}
   - {fileID: 5365324556977699387, guid: 8fd41ef86d48f3a46baa8a7a2c31ceb1, type: 3}
-  - {fileID: 6042406394901359961, guid: 8fd41ef86d48f3a46baa8a7a2c31ceb1, type: 3}
-  - {fileID: 4918822323736934735, guid: 8fd41ef86d48f3a46baa8a7a2c31ceb1, type: 3}
-  - {fileID: -6090907897933693475, guid: 8fd41ef86d48f3a46baa8a7a2c31ceb1, type: 3}
   levelGenerator: {fileID: 0}
   tileSprite: {fileID: 807116846489985833}
   upNeighbor: 1
@@ -97,12 +94,12 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5305142114089446201}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 68fac3984425bc64eb836f41dfd4be64, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1.4, z: 2.121}
-  m_Center: {x: 0, y: 0, z: -0.3535}
+  m_Size: {x: 1, y: 0.7, z: 1.414}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9118197604724627518
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +170,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 8976857449127543898, guid: 8fd41ef86d48f3a46baa8a7a2c31ceb1,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -38,9 +38,9 @@ public class EnemyHandler : MonoBehaviour
     private Material matWhite;
     private Material matDefault;
 
-    //[NonSerialized] public readonly EnemyIdleState enemyIdleState = new EnemyIdleState();
+    [NonSerialized] public readonly EnemyIdleState enemyIdleState = new EnemyIdleState();
     //[NonSerialized] public readonly EnemyShootState enemyShootState = new EnemyShootState();
-    [NonSerialized] public readonly EnemyMoveState enemyMoveState = new EnemyMoveState();
+    //[NonSerialized] public readonly EnemyMoveState enemyMoveState = new EnemyMoveState();
 
     public float GetMaxRadius => maxRadius;
     public float GetMinRadius => minRadius;
@@ -64,11 +64,11 @@ public class EnemyHandler : MonoBehaviour
     {
         if(OnEnemyDeath == null) OnEnemyDeath = new UnityEvent();
         enemySpawner = FindObjectOfType<EnemySpawner>();
-        OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
+        //OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
         maxAmmo = ammoAmount;
         player = FindObjectOfType<PlayerManager>();
         stateMachine = new StateMachine<EnemyHandler>(this);
-        stateMachine.ChangeState(enemyMoveState);
+        stateMachine.ChangeState(enemyIdleState);
     }
 
     private void Start()
@@ -189,17 +189,22 @@ public class EnemyHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("PlayerBullet"))
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerBullet"))
         {
-            TakeDamage(collision.GetComponent<Projectile>().damageAmount);
-            Destroy(collision.gameObject);
+            TakeDamage(other.GetComponent<Projectile>().damageAmount);
+            Destroy(other.gameObject);
             
             spr.material = matWhite;
             
             Invoke("SwapMaterialToDefault", .1f);
         }
     }
-    
+
     private void SwapMaterialToDefault()
     {
         spr.material = matDefault;

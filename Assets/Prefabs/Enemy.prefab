@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3038402099898487885}
   - component: {fileID: 3038402099898487884}
-  - component: {fileID: 8573843244200205800}
+  - component: {fileID: 102885825150755126}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -71,22 +71,20 @@ MonoBehaviour:
   OnEnemyDeath:
     m_PersistentCalls:
       m_Calls: []
---- !u!58 &8573843244200205800
-CircleCollider2D:
+--- !u!136 &102885825150755126
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3038402099898487886}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.12805867}
-  serializedVersion: 2
-  m_Radius: 0.40256405
+  m_Enabled: 1
+  m_Radius: 0.25
+  m_Height: 0.75
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: -0.15}
 --- !u!1 &3038402101569680428
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,13 +109,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3038402101569680428}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3038402099898487885}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!212 &3038402101569680426
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -322,7 +320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3846038751799420712
 RectTransform:
   m_ObjectHideFlags: 0

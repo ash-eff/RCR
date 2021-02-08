@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0920b929aa68f43baeae38d6a8dd23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyAfter: 30
+  destroyAfter: 2
   impactPrefab: {fileID: 706778387805104156, guid: 6061d1652db8cbc409632dc249b4f4cf,
     type: 3}
   speed: 14

@@ -15,7 +15,8 @@ public class LevelGenerator : MonoBehaviour
         Empty,
         Floor,
         Wall,
-        Obstacle
+        Obstacle,
+        Center
     };
  
     [SerializeField] private Vector2 roomSizeWorldUnits = new Vector2(30, 30);
@@ -30,9 +31,11 @@ public class LevelGenerator : MonoBehaviour
         public Vector3 dir;
         public Vector3 pos;
     }
+    
 
     private List<Walker> walkers;
     private List<GameObject> tiles = new List<GameObject>();
+    //public List<Vector2> gridPositions = new List<Vector2>();
     private List<Vector3> floorPositions = new List<Vector3>();
     private GridSpace[,] grid;
     private Vector3 playerSpawnPoint;
@@ -48,29 +51,27 @@ public class LevelGenerator : MonoBehaviour
     public int GetRoomHeight => roomHeight;
     public int GetRoomWidth => roomWidth;
     public Vector3 GetPlayerSpawnPoint => playerSpawnPoint;
+    public List<Vector3> GetFloorPositions => floorPositions;
 
     private void Awake()
     {
         if(OnLevelLoaded == null) OnLevelLoaded = new UnityEvent();
     }
 
-    private void Start()
-    {
-        GenerateLevel();
-    }
-    
     public void GenerateLevel()
     {
         ResetLevel();
         SetUp();
         CreateFloors();
         CreateWalls();
-        DealWithSingleWalls();
+        //DealWithSingleWalls();
+        DealWithSingleRowsOfWalls();
         GenerateListOfFloorPositions();
         SetPlayerSpawnPoint();
         // SetEnemySpawnPoints();
         // SetItemSpawnPoints();
         SpawnLevel();
+        
     }
 
     public void ResetLevel()
@@ -82,44 +83,64 @@ public class LevelGenerator : MonoBehaviour
                 DestroyImmediate(tile);
             }
             
+            //gridPositions.Clear();
             tiles.Clear();
             floorPositions.Clear();
         }
         
-        tiles = new List<GameObject>();
+        //tiles = new List<GameObject>();
+        //gridPositions = new List<Vector2>();
+        //floorPositions = new List<Vector3>();
     }
 
     private void SetUp()
     {
         // find grid size
-        roomHeight = Mathf.RoundToInt(roomSizeWorldUnits.x / worldUnitsInOneGridCell.x);
-        roomWidth = Mathf.RoundToInt(roomSizeWorldUnits.y / worldUnitsInOneGridCell.y);
-        
+        roomWidth = Mathf.RoundToInt(roomSizeWorldUnits.x);
+        roomHeight = Mathf.RoundToInt(roomSizeWorldUnits.y);
+
         // create grid
         grid = new GridSpace[roomWidth, roomHeight];
         
         // set grid's default state
-        for(int x = 0; x < roomWidth - 1; x++)
-            for (int y = 0; y < roomHeight - 1; y++)
+        for (int x = 0; x < roomWidth; x++)
+        {
+            for (int y = 0; y < roomHeight; y++)
+            {
                 grid[x, y] = GridSpace.Empty; // make every cell empty
+                //gridPositions.Add(new Vector2(x, y ));
+            }
+        }
 
         // set first walker
         walkers = new List<Walker>();
         Walker newWalker = new Walker();
         newWalker.dir = RandomDirection();
-        Vector3 spawnPos = new Vector3(Mathf.RoundToInt(roomWidth / 2.0f), 0f, Mathf.RoundToInt(roomHeight / 2.0f));
+        Vector3 spawnPos = new Vector3(Mathf.RoundToInt(roomWidth / 2.0f), 0f, Mathf.RoundToInt(roomHeight / 2.0f));        
         newWalker.pos = spawnPos;
         walkers.Add(newWalker);
     }
 
     private void CreateFloors()
     {
-        int interations = 0;
+        int iterations = 0;
         do
         {
             // create floor at every position of walker
             foreach (Walker myWalker in walkers)
+            {
+               // Debug.Log("X: " + myWalker.pos.x + " Y: " + myWalker.pos.z);
                 grid[(int) myWalker.pos.x, (int) myWalker.pos.z] = GridSpace.Floor;
+
+                // as long as placing a floor a space above the walker is in range, do it
+                if(myWalker.pos.z + 1 < roomHeight - 2)
+                   grid[(int) myWalker.pos.x, (int) myWalker.pos.z + 1] = GridSpace.Floor;
+                
+                //// as long as placing a floor a space to the right of the walker is in range, do it
+                if(myWalker.pos.x + 1 < roomWidth - 2)
+                    grid[(int) myWalker.pos.x + 1, (int) myWalker.pos.z] = GridSpace.Floor;
+            }
+                
             
             // chance: destroy a walker
             int numberChecks = walkers.Count;
@@ -173,9 +194,9 @@ public class LevelGenerator : MonoBehaviour
             if ((float) NumberOfFloors() / (float) grid.Length > percentToFill)
                 break;
             
-            interations++;
+            iterations++;
             
-        } while (interations < 100000);
+        } while (iterations < 100000);
     }
 
     private void CreateWalls()
@@ -243,6 +264,44 @@ public class LevelGenerator : MonoBehaviour
             }
         }
     }
+    
+    private void DealWithSingleRowsOfWalls()
+    {
+        //loop though every grid space
+        for (int x = 0; x < roomWidth-1; x++)
+        {
+            for (int y = 0; y < roomHeight-1; y++)
+            {
+                //if theres a wall, check the spaces above and below it
+                if (grid[x,y] == GridSpace.Wall)
+                {
+                    //assume both spaces above and below wall are floors
+                    bool aboveIsFloors = true;
+                    bool belowIsFloor = true;
+                    
+                    // as long as space above and below are in range
+                    if (y + -1 >= 0  && y + 1 <= roomHeight - 1)
+                    {
+                        if (grid[x, y + 1] != GridSpace.Floor)
+                        {
+                            aboveIsFloors = false;
+                        }
+                        
+                        if (grid[x, y - 1] != GridSpace.Floor)
+                        {
+                            aboveIsFloors = false;
+                        }
+                    }
+
+                    // if both above and below are floors, set the above floor to a wall
+                    if (aboveIsFloors && belowIsFloor)
+                    {
+                        grid[x, y + 1] = GridSpace.Wall;
+                    }
+                }
+            }
+        }
+    }
 
     private void SetPlayerSpawnPoint()
     {
@@ -274,6 +333,7 @@ public class LevelGenerator : MonoBehaviour
         }
         
         OnLevelLoaded.Invoke();
+        //enabled = false;
     }
 
     private void GenerateListOfFloorPositions()

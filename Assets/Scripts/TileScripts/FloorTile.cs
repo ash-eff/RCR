@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FloorTile : LevelTile
-{ 
+{
+
+    [SerializeField] private SpriteRenderer minimapSprite;
     public bool hasWallAbove = false;
+
     protected override void CheckNeighbors()
     {
         var startingPos = new Vector2((int)gridPos.x, (int)gridPos.y);
@@ -21,5 +24,7 @@ public class FloorTile : LevelTile
             tileSprite.sprite = availableSprites[0];
         else
             tileSprite.sprite = availableSprites[Random.Range(1, availableSprites.Length - 1)];
+
+        //minimapSprite.enabled = true;
     }
 }

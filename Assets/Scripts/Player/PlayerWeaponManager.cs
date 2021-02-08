@@ -191,14 +191,14 @@ public class PlayerWeaponManager : MonoBehaviour
 		
 		
 		// set the sprite order, behind or in front of the player based on cursor position
-		//if (rot > 0f && rot < 180f)
-		//{
-		//	currentWeapon.gunSprite.sortingOrder = -1;
-		//}
-		//else
-		//{
-		//	currentWeapon.gunSprite.sortingOrder = 0;
-		//}
+		if (rot > 0f && rot < 180f)
+		{
+			currentWeapon.gunSprite.sortingOrder = -1;
+		}
+		else
+		{
+			currentWeapon.gunSprite.sortingOrder = 0;
+		}
 	}
 	
 	#endregion
