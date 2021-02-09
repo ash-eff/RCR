@@ -126,4 +126,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba88218165afb04585af0f4f20e8dd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowTransform: {fileID: 0}
+  arrowSprite: {fileID: 4009542723917155502}
+  objective: {fileID: 0}

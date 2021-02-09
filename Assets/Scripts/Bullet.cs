@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
         var offset = Random.Range(-4, 4);
         rotation += offset;
         FireProjectile(rotation);
-        //EjectShell(gunPosition);
+        EjectShell(gunPosition);
     }
     
     public void FireProjectile(float rot)

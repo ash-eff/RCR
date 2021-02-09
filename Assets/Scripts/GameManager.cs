@@ -11,12 +11,15 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
+    [SerializeField] private PlayerManager playerManager;
+
     [SerializeField] private GameObject winGameScreen;
     [SerializeField] private GameObject pauseScreen;
     [SerializeField] private LevelGenerator levelGenerator;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject videoTape;
+    [SerializeField] private GameObject exit;
     [SerializeField] private int numberOfEnemiesToSpawn;
 
     [SerializeField] private List<Vector3> legalSpawnPositions;
@@ -69,8 +72,8 @@ public class GameManager : MonoBehaviour
     {
         // for now, buffers and num of enemies are manually set but eventually it will be dictated by a room class
         GenerateLegalSpawnPositions();
-        //SpawnItem(videoTape);
-        //SpawnEnemies(numberOfEnemiesToSpawn);
+        SpawnItem(videoTape);
+        SpawnEnemies(numberOfEnemiesToSpawn);
         SpawnPlayer();
         DoneLoadingLevel();
     }
@@ -104,6 +107,23 @@ public class GameManager : MonoBehaviour
         
         legalSpawnPositions.Remove(randomPosition);
         Instantiate(itemToSpawn, randomPosition, quaternion.identity);
+    }
+
+    private void SpawnObjective(GameObject objectiveToSpawn)
+    {
+        var randomIndex = Random.Range(0, legalSpawnPositions.Count);
+        var randomPosition = legalSpawnPositions[randomIndex];
+        var minDistance = levelGenerator.GetRoomWidth / 2;
+        
+        while ((playerSpawnPosition - randomPosition).magnitude < minDistance)
+        {
+            randomIndex = Random.Range(0, legalSpawnPositions.Count);
+            randomPosition = legalSpawnPositions[randomIndex];
+        }
+        
+        legalSpawnPositions.Remove(randomPosition);
+        GameObject exitObj = Instantiate(objectiveToSpawn, randomPosition, quaternion.identity);
+        playerManager.TrackObjective(exitObj);
     }
     
     private void SpawnEnemies(int numberToSpawn)
@@ -156,12 +176,19 @@ public class GameManager : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        Instantiate(player, levelGenerator.GetPlayerSpawnPoint, Quaternion.identity);
+        GameObject obj = Instantiate(player, levelGenerator.GetPlayerSpawnPoint, Quaternion.identity);
+        playerManager = obj.GetComponent<PlayerManager>();
     }
     
     private void DoneLoadingLevel()
     {
         loadingScreen.SetActive(false);  
         OnGameReady.Invoke();
+    }
+
+    public void LevelCleared()
+    {
+        SpawnObjective(exit);
+        playerManager.SendMessageToMessageSystem("Get to the exit.", 2);
     }
 }

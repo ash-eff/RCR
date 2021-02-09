@@ -8,14 +8,17 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 	public StateMachine<PlayerManager> stateMachine; 
-	private MessageSystem messageSystem;
+	public MessageSystem messageSystem;
 	[SerializeField] private float runSpeed = 40f;
-	
+	[SerializeField] private SpriteRenderer minimapSprite;
+
 	private PlayerAnimationController animController;
 	private PlayerHazardTrigger hazardTrigger;
 	private PlayerController playerController;
 	private PlayerInput playerInput;
+	public PlayerWeaponManager playerWeaponManager;
 	private bool isMoving = true;
+	private ObjectiveArrow objectiveArrow;
 	
 	[NonSerialized] public readonly PlayerBaseState playerBaseState = new PlayerBaseState();
 	[NonSerialized] public readonly PlayerSpecialState playerSpecialState = new PlayerSpecialState();
@@ -26,15 +29,18 @@ public class PlayerManager : MonoBehaviour
 		animController = GetComponent<PlayerAnimationController>();
 		playerController = GetComponent<PlayerController>();
 		playerInput = GetComponent<PlayerInput>();
+		playerWeaponManager = GetComponent<PlayerWeaponManager>();
 		hazardTrigger = GetComponentInChildren<PlayerHazardTrigger>();
-		stateMachine = new StateMachine<PlayerManager>(this);
-		stateMachine.ChangeState(playerBaseState);
 		messageSystem = FindObjectOfType<MessageSystem>();
+		objectiveArrow = GetComponentInChildren<ObjectiveArrow>();
+		minimapSprite.enabled = true;
 	}
 
 	private void Start()
 	{
-		messageSystem.DisplayMessage("Find the missing VHS tape.", 2);
+		stateMachine = new StateMachine<PlayerManager>(this);
+		stateMachine.ChangeState(playerIdleState);
+		SendMessageToMessageSystem("Kill everything and make your escape.", 2);
 	}
 
 	private void Update()
@@ -52,19 +58,23 @@ public class PlayerManager : MonoBehaviour
 		stateMachine.FixedUpdate();
 	}
 
-	//public void DealWithHazard()
-	//{
-	//	Hazard hazard = hazardTrigger.GetCurrentHazard;
-	//	if(hazard != null)
-	//		damageText.text = "Taking " + hazard.typeOfHazard + " damage!";
-	//	else
-	//	{
-	//		Debug.Log("No Hazard");
-	//	}
-	//}
+	public void SendMessageToMessageSystem(string message, int times)
+	{
+		messageSystem.DisplayMessage(message, times);
+	}
 
-	//public void DealWithHazardExit()
-	//{
-	//	damageText.text = "No hazard.";
-	//}
+	public void TrackObjective(GameObject obj)
+	{
+		objectiveArrow.SetObjective = obj.transform;
+	}
+
+	public void PlayerIdleState()
+	{
+		stateMachine.ChangeState(playerIdleState);
+	}
+	
+	public void PlayerBaseState()
+	{
+		stateMachine.ChangeState(playerBaseState);
+	}
 }

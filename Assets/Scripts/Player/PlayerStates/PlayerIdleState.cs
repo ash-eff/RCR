@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerIdleState : State<PlayerManager>
 {
     public override void EnterState(PlayerManager player)
-    { ;
+    { 
+        Debug.Log("Player Idle");
+        player.playerWeaponManager.HideWeapon();
     }
 
     public override void ExitState(PlayerManager player)
@@ -14,7 +16,6 @@ public class PlayerIdleState : State<PlayerManager>
 
     public override void UpdateState(PlayerManager player)
     {
-        Debug.Log("Idle State");
     }
 
     public override void FixedUpdateState(PlayerManager player)

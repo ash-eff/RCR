@@ -64,7 +64,7 @@ public class EnemyHandler : MonoBehaviour
     {
         if(OnEnemyDeath == null) OnEnemyDeath = new UnityEvent();
         enemySpawner = FindObjectOfType<EnemySpawner>();
-        //OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
+        OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
         maxAmmo = ammoAmount;
         player = FindObjectOfType<PlayerManager>();
         stateMachine = new StateMachine<EnemyHandler>(this);
@@ -181,10 +181,10 @@ public class EnemyHandler : MonoBehaviour
         {
             Instantiate(coinPrefab, transform.position, Quaternion.identity);
         }
+        OnEnemyDeath.Invoke();
         GameObject obj = Instantiate(enemyDeathPrefab, transform.position, Quaternion.identity);
         Destroy(obj, 1.25f);
         Destroy(gameObject);
-        OnEnemyDeath.Invoke();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

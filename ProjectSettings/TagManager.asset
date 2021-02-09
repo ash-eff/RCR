@@ -12,6 +12,7 @@ TagManager:
   - WeaponPickUp
   - AmmoPickUp
   - CoinPickUp
+  - Floor
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Obstacle
   - Player
   - MinimapLayer
-  - 
+  - Floor
   - 
   - 
   - 

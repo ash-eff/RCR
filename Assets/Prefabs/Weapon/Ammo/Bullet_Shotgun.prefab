@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d228b3106e6fb24baecde73bbce2a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shellPrefab: {fileID: 464416350406689388, guid: 4a1a795bffd4bab4fadf052fdcbc6f27,
+  shellPrefab: {fileID: 464416350406689388, guid: b37a760d80506814ba285caaee08d51e,
     type: 3}
   projectilePrefab: {fileID: 2056099785354881675, guid: 09fc33dc7e88d4c4bacf6cf9011cd96c,
     type: 3}

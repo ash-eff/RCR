@@ -28,6 +28,7 @@ public class Weapon : MonoBehaviour
 
 
     public SpriteRenderer gunSprite;
+    //public SpriteRenderer fistSprite;
     public Vector3 gunPosition;
     public Transform muzzlePosition;
     public GameObject bulletPrefab;
@@ -111,5 +112,10 @@ public class Weapon : MonoBehaviour
         gunSprite.enabled = _isEquipped;
         isEquipped = _isEquipped;
         //fistSprite.enabled = !isHidden;
+    }
+
+    public void HideWeapon(bool isHidden)
+    {
+        gunSprite.enabled = !isHidden;
     }
 }

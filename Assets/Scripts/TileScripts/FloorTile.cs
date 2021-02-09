@@ -25,6 +25,6 @@ public class FloorTile : LevelTile
         else
             tileSprite.sprite = availableSprites[Random.Range(1, availableSprites.Length - 1)];
 
-        //minimapSprite.enabled = true;
+        minimapSprite.enabled = true;
     }
 }

@@ -24,7 +24,7 @@ public class PlayerInput : MonoBehaviour
     public UnityEvent OnSwapEvent; 
     public UnityEvent OnSpecialEvent;
 
-    private bool isIdle;
+    private bool isIdle = true;
     public Vector2 GetDirectionAxis => directionAxis;
     public Vector3 GetCursorDirection => cursorDirection.normalized;
     public float GetAngleToCursor => angleToCursor;
@@ -81,9 +81,18 @@ public class PlayerInput : MonoBehaviour
         {
             idleTimer = 10f;
         }
-        
-        if(isFiring)
+
+        if (isFiring)
+        {
+            if (isIdle)
+            {
+                isIdle = false;
+                OnWakeEvent.Invoke();
+            }
+            
             OnShootEvent.Invoke();
+        }
+            
 
         AdjustCursorPosition();
         angleToCursor = MyUtils.GetAngleFromVectorFloat3D(cursorDirection.normalized);

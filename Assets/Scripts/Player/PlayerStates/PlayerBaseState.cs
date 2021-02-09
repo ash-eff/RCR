@@ -6,6 +6,8 @@ public class PlayerBaseState : State<PlayerManager>
 {
     public override void EnterState(PlayerManager player)
     {
+        Debug.Log("Player Base");
+        player.playerWeaponManager.RevealWeapon();
     }
 
     public override void ExitState(PlayerManager player)

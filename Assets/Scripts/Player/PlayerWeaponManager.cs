@@ -18,6 +18,7 @@ public class PlayerWeaponManager : MonoBehaviour
 	[SerializeField] private int pointsNeededForSpecial;
 	[SerializeField] private Image specialCooldownBar;
 	[SerializeField] private TextMeshProUGUI specialReadyText;
+	[SerializeField] private SpriteRenderer fistSprite;
 
 	private int inventoryIndex = -1;
 	private PlayerInput playerInput;
@@ -109,6 +110,23 @@ public class PlayerWeaponManager : MonoBehaviour
 			//isMoving = false;
 			currentWeapon.SpecialAbility();
 		}
+	}
+
+	public void HideWeapon()
+	{
+		if(currentWeapon != null){}
+			currentWeapon.HideWeapon(true);
+			
+		fistSprite.enabled = false;
+	}
+	
+	public void RevealWeapon()
+	{
+		if(currentWeapon != null){}
+			currentWeapon.HideWeapon(false);
+			
+		fistSprite.enabled = true;
+
 	}
 
 	// called from a trigger on WeaponPickup

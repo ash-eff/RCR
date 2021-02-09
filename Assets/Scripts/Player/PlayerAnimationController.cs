@@ -13,6 +13,11 @@ public class PlayerAnimationController : MonoBehaviour
     private static readonly int XDir = Animator.StringToHash("xDir");
     private static readonly int YDir = Animator.StringToHash("yDir");
 
+    private void Awake()
+    {
+        OnIdleAnimation();
+    }
+
     public void SetSpriteFacingDirection(Vector3 direction)
     {
         anim.SetFloat(XDir, direction.x);

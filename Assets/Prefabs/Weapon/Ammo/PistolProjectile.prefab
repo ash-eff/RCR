@@ -49,7 +49,7 @@ MonoBehaviour:
   destroyAfter: 2
   impactPrefab: {fileID: 706778387805104156, guid: 6061d1652db8cbc409632dc249b4f4cf,
     type: 3}
-  speed: 14
+  speed: 25
   rb: {fileID: 1589148674674003752}
   spr: {fileID: 2056099785524195543}
   damageAmount: 1

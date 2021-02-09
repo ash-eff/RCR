@@ -9,39 +9,34 @@ using UnityEngine.Assertions.Must;
 public class ObjectiveArrow : MonoBehaviour
 {
     //private PlayerManager playerManager;
-    private SpriteRenderer arrowSprite;
+    [SerializeField] private SpriteRenderer arrowSprite;
     private Transform arrowTransform;
-    public Transform objective;
+    private Transform objective;
 
     private void Awake()
     {
-        //playerManager = GetComponentInParent<PlayerManager>();
-        arrowSprite = GetComponentInChildren<SpriteRenderer>();
         arrowTransform = arrowSprite.transform;
     }
-    
 
     public Transform SetObjective
     {
-        get => arrowTransform;
-        set => arrowTransform = value.transform;
+        get => objective;
+        set => objective = value.transform;
     }
 
     private void Update()
     {
-        if (objective == null)
+        if (objective != null)
         {
-            arrowSprite.enabled = false;
-            return;
+            if (MyUtils.DistanceBetweenObjects(objective.position, transform.position) > 4f)
+                arrowSprite.enabled = true;
+            else
+                arrowSprite.enabled = false;
+            
+            var angle = MyUtils.GetAngleFromVectorFloat3D(objective.position - transform.position);
+            var spriteRot = MyUtils.GetSpriteXYRotationFromZAngle(angle);
+            transform.localRotation = Quaternion.Euler(0,0,angle);
+            arrowTransform.transform.localRotation = Quaternion.Euler(spriteRot.x, spriteRot.y, 0f);
         }
-
-        if(arrowSprite.enabled == false)
-            arrowSprite.enabled = true;
-        
-        var angle = MyUtils.GetAngleFromVectorFloat3D(objective.position - transform.position);
-        Debug.DrawLine(transform.position, objective.position, Color.red);
-        var spriteRot = MyUtils.GetSpriteXYRotationFromZAngle(angle);
-        transform.localRotation = Quaternion.Euler(0,0,angle);
-        arrowTransform.transform.localRotation = Quaternion.Euler(spriteRot.x, spriteRot.y, 0f);
     }
 }
