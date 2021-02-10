@@ -39,7 +39,7 @@ public class PlayerManager : MonoBehaviour
 	private void Start()
 	{
 		stateMachine = new StateMachine<PlayerManager>(this);
-		stateMachine.ChangeState(playerIdleState);
+		stateMachine.ChangeState(playerBaseState);
 		SendMessageToMessageSystem("Kill everything and make your escape.", 2);
 	}
 
@@ -70,11 +70,12 @@ public class PlayerManager : MonoBehaviour
 
 	public void PlayerIdleState()
 	{
-		stateMachine.ChangeState(playerIdleState);
+		// something is triggering idle when it's not needed
+		//stateMachine.ChangeState(playerIdleState);
 	}
 	
 	public void PlayerBaseState()
 	{
-		stateMachine.ChangeState(playerBaseState);
+		//stateMachine.ChangeState(playerBaseState);
 	}
 }

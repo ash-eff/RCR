@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3038402099898487885}
   - component: {fileID: 3038402099898487884}
   - component: {fileID: 102885825150755126}
+  - component: {fileID: 5571307730085629220}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -30,8 +31,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3038402101569680427}
-  - {fileID: 3846038751799420712}
   - {fileID: 5425775093232820285}
+  - {fileID: 3846038751799420712}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50,6 +51,8 @@ MonoBehaviour:
   rigidbody2D: {fileID: 0}
   player: {fileID: 0}
   spr: {fileID: 3038402101569680426}
+  minimapSprite: {fileID: 3205734021698951880}
+  agent: {fileID: 5571307730085629220}
   enemyDeathPrefab: {fileID: 3838044794973474393, guid: 261f61dca20ecd44b904ed2eee9472e7,
     type: 3}
   ammoPrefab: {fileID: 302896757910751203, guid: d25af19cd204f7d448d3bb861c1f215a,
@@ -86,6 +89,28 @@ CapsuleCollider:
   m_Height: 0.75
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: -0.15}
+--- !u!195 &5571307730085629220
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3038402099898487886}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.24
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 0
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.53
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &3038402101569680428
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +360,7 @@ RectTransform:
   m_Children:
   - {fileID: 5476250947982368365}
   m_Father: {fileID: 3038402099898487885}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -385,6 +410,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7938612557854342249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,7 +439,7 @@ GameObject:
   - component: {fileID: 5425775093232820285}
   - component: {fileID: 3205734021698951880}
   m_Layer: 10
-  m_Name: GameObject
+  m_Name: MinimapSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,7 +457,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3038402099898487885}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!212 &3205734021698951880
 SpriteRenderer:
@@ -440,7 +466,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6382425464848160074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

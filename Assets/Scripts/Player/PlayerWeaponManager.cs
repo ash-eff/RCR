@@ -60,7 +60,7 @@ public class PlayerWeaponManager : MonoBehaviour
 		}
 	}
 
-	private void OnTriggerEnter2D(Collider2D other)
+	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("AmmoPickUp"))
 		{
@@ -72,6 +72,7 @@ public class PlayerWeaponManager : MonoBehaviour
 			CollectNewWeapon(other.GetComponent<WeaponPickup>().CollectWeapon());
 		}
 	}
+
 
 	#region Public Functions
 

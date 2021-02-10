@@ -63,24 +63,29 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         // add more checks here, for instance id the player isn't shooting or jumping
-        if (directionAxis == Vector2.zero)
-        {
-            idleTimer -= Time.deltaTime;
-            if (idleTimer <= 0 && !isIdle)
-            {
-                isIdle = true;
-                OnIdleEvent.Invoke();
-            }
-        }
-        else if(isIdle)
-        {
-            isIdle = false;
-            OnWakeEvent.Invoke();
-        }
-        else
-        {
-            idleTimer = 10f;
-        }
+        
+        
+        // is this causing the bug that makes the player randomly stop moving?
+        
+        
+        //if (directionAxis == Vector2.zero)
+        //{
+        //    idleTimer -= Time.deltaTime;
+        //    if (idleTimer <= 0 && !isIdle)
+        //    {
+        //        isIdle = true;
+        //        OnIdleEvent.Invoke();
+        //    }
+        //}
+        //else if(isIdle)
+        //{
+        //    isIdle = false;
+        //    OnWakeEvent.Invoke();
+        //}
+        //else
+        //{
+        //    idleTimer = 10f;
+        //}
 
         if (isFiring)
         {

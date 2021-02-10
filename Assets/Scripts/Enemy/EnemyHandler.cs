@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ash.StateMachine;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
@@ -11,6 +12,9 @@ public class EnemyHandler : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidbody2D;
     [SerializeField] private PlayerManager player;
     [SerializeField] private SpriteRenderer spr;
+    [SerializeField] private SpriteRenderer minimapSprite;
+    [SerializeField] private NavMeshAgent agent;
+    
     [SerializeField] private GameObject enemyDeathPrefab;
     [SerializeField] private GameObject ammoPrefab;
     [SerializeField] private GameObject coinPrefab;
@@ -66,7 +70,7 @@ public class EnemyHandler : MonoBehaviour
         enemySpawner = FindObjectOfType<EnemySpawner>();
         OnEnemyDeath.AddListener(enemySpawner.EnemyDead);
         maxAmmo = ammoAmount;
-        player = FindObjectOfType<PlayerManager>();
+        minimapSprite.enabled = true;
         stateMachine = new StateMachine<EnemyHandler>(this);
         stateMachine.ChangeState(enemyIdleState);
     }
@@ -75,12 +79,25 @@ public class EnemyHandler : MonoBehaviour
     {
         matWhite = Resources.Load("WhiteFlash", typeof(Material)) as Material; 
         matDefault = spr.material;
+        player = FindObjectOfType<PlayerManager>();
+        
+        StartCoroutine(TrackPlayerMovement());
     }
 
     private void Update() => stateMachine.Update();
     private void FixedUpdate() => stateMachine.FixedUpdate();
 
 
+    IEnumerator TrackPlayerMovement()
+    {
+        yield return new WaitForSeconds(3f);
+        Debug.Log("Tracking");
+        while (true)
+        {
+            agent.SetDestination(player.transform.position);
+            yield return new WaitForSeconds(.5f);
+        }
+    }
 
     //takedamage
 
