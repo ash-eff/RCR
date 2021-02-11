@@ -22,7 +22,6 @@ public class EnemyHandler : MonoBehaviour
     [SerializeField] private float maxRadius;
     [SerializeField] private float minRadius;
     [SerializeField] private LayerMask visionLayers;
-    public BaseRoom spawnedFromRoom;
     public StateMachine<EnemyHandler> stateMachine;
     [SerializeField] private GameObject projectilePrefab;
     private float lastShot = 0;

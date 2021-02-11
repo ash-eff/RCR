@@ -13,7 +13,6 @@ public class PlayerManager : MonoBehaviour
 	[SerializeField] private SpriteRenderer minimapSprite;
 
 	private PlayerAnimationController animController;
-	private PlayerHazardTrigger hazardTrigger;
 	private PlayerController playerController;
 	private PlayerInput playerInput;
 	public PlayerWeaponManager playerWeaponManager;
@@ -30,7 +29,6 @@ public class PlayerManager : MonoBehaviour
 		playerController = GetComponent<PlayerController>();
 		playerInput = GetComponent<PlayerInput>();
 		playerWeaponManager = GetComponent<PlayerWeaponManager>();
-		hazardTrigger = GetComponentInChildren<PlayerHazardTrigger>();
 		messageSystem = FindObjectOfType<MessageSystem>();
 		objectiveArrow = GetComponentInChildren<ObjectiveArrow>();
 		minimapSprite.enabled = true;
@@ -40,7 +38,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		stateMachine = new StateMachine<PlayerManager>(this);
 		stateMachine.ChangeState(playerBaseState);
-		SendMessageToMessageSystem("Kill everything and make your escape.", 2);
+		//SendMessageToMessageSystem("Kill everything and make your escape.", 2);
 	}
 
 	private void Update()

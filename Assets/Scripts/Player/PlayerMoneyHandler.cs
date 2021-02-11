@@ -27,6 +27,6 @@ public class PlayerMoneyHandler : MonoBehaviour
     {
         coinTotal += coinAmount;
         coinText.text = "$" + coinTotal.ToString();
-        messageHandler.CreateFloatingText("$" + coinAmount.ToString());
+        messageHandler.CreateFloatingText(coinText.text);
     }
 }

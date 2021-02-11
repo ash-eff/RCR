@@ -12,6 +12,6 @@ public class PlayerMessageHandler : MonoBehaviour
     public void CreateFloatingText(string message)
     {
         GameObject colObj = Instantiate(floatingText, transform.position, quaternion.identity);
-        colObj.GetComponent<CollectionText>().SetMessage(message);
+        colObj.GetComponent<ItemPickupMessage>().SetMessage(message);
     }
 }
