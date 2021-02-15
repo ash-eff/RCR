@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 5762019494532921159, guid: e970d1a9e9bf01840b266e263e3af512, type: 3}
+  playerManager: {fileID: 0}
   winGameScreen: {fileID: 0}
   pauseScreen: {fileID: 0}
   levelGenerator: {fileID: 0}
@@ -51,7 +52,8 @@ MonoBehaviour:
   loadingScreen: {fileID: 0}
   videoTape: {fileID: 2406425833830750270, guid: 0077de25a565f7d498eaf61d659463a0,
     type: 3}
-  numberOfEnemiesToSpawn: 10
+  exit: {fileID: 7691316397171948547, guid: 59fdf3c4fd3da7146a4175f535abaa75, type: 3}
+  numberOfEnemiesToSpawn: 15
   legalSpawnPositions: []
   OnGameReady:
     m_PersistentCalls:

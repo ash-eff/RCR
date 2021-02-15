@@ -76,6 +76,8 @@ public class GameManager : MonoBehaviour
         SpawnEnemies(numberOfEnemiesToSpawn);
         SpawnPlayer();
         DoneLoadingLevel();
+        
+        
     }
 
     private void GenerateLegalSpawnPositions()
