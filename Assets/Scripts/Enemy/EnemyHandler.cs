@@ -77,16 +77,7 @@ public class EnemyHandler : MonoBehaviour
     //{
     //    rigidbody2D.MovePosition(rigidbody2D.position + velocity * Time.fixedDeltaTime);
     //}
-//
-    //private void TakeDamage(int dmgAmount)
-    //{
-    //    health -= dmgAmount;
-    //    if (health <= 0)
-    //    {
-    //        Die();
-    //    }
-    //}
-//
+
     //private void Die()
     //{
     //    //spawnedFromRoom.SpawnKey();
@@ -104,35 +95,5 @@ public class EnemyHandler : MonoBehaviour
     //    Destroy(obj, 1.25f);
     //    Destroy(gameObject);
     //}
-//
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-//
-    //}
-//
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("PlayerBullet"))
-    //    {
-    //        TakeDamage(other.GetComponent<Projectile>().damageAmount);
-    //        Destroy(other.gameObject);
-    //        
-    //        spr.material = matWhite;
-    //        
-    //        Invoke("SwapMaterialToDefault", .1f);
-    //    }
-    //}
-//
-    //private void SwapMaterialToDefault()
-    //{
-    //    spr.material = matDefault;
-    //}
-//
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(transform.position, maxRadius);
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawWireSphere(transform.position, minRadius);
-    //}
+
 }

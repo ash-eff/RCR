@@ -20,6 +20,11 @@ public class Enemy_ChaseAndExplode : Enemy
         SwapState(enemyDeathState);
     }
 
+    public override void EnemyDeath()
+    {
+        Destroy(gameObject);
+    }
+
     public override void ReactToPlayerLeavingRange()
     {
         SwapState(enemyIdleState);

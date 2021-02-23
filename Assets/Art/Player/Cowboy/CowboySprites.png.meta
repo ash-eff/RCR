@@ -134,6 +134,18 @@ TextureImporter:
   - first:
       213: -1324216160309545108
     second: CowboySprites_43
+  - first:
+      213: -4249113108129794624
+    second: CowboySprites_44
+  - first:
+      213: -5503750965566805519
+    second: CowboySprites_45
+  - first:
+      213: -4814811788228556392
+    second: CowboySprites_46
+  - first:
+      213: 2410995049145266790
+    second: CowboySprites_47
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -239,7 +251,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 384
+        y: 432
         width: 48
         height: 48
       alignment: 0
@@ -260,7 +272,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 384
+        y: 432
         width: 48
         height: 48
       alignment: 0
@@ -281,7 +293,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 384
+        y: 432
         width: 48
         height: 48
       alignment: 0
@@ -302,7 +314,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 144
-        y: 384
+        y: 432
         width: 48
         height: 48
       alignment: 0
@@ -323,7 +335,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 336
+        y: 384
         width: 48
         height: 48
       alignment: 0
@@ -344,7 +356,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 336
+        y: 384
         width: 48
         height: 48
       alignment: 0
@@ -365,7 +377,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 336
+        y: 384
         width: 48
         height: 48
       alignment: 0
@@ -386,7 +398,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 144
-        y: 336
+        y: 384
         width: 48
         height: 48
       alignment: 0
@@ -407,7 +419,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 288
+        y: 336
         width: 48
         height: 48
       alignment: 0
@@ -428,7 +440,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 288
+        y: 336
         width: 48
         height: 48
       alignment: 0
@@ -449,7 +461,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 288
+        y: 336
         width: 48
         height: 48
       alignment: 0
@@ -470,7 +482,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 144
-        y: 288
+        y: 336
         width: 48
         height: 48
       alignment: 0
@@ -491,7 +503,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 288
+        y: 336
         width: 48
         height: 48
       alignment: 0
@@ -512,7 +524,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 288
+        y: 336
         width: 48
         height: 48
       alignment: 0
@@ -533,7 +545,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 240
+        y: 288
         width: 48
         height: 48
       alignment: 0
@@ -554,7 +566,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 240
+        y: 288
         width: 48
         height: 48
       alignment: 0
@@ -575,7 +587,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 240
+        y: 288
         width: 48
         height: 48
       alignment: 0
@@ -596,7 +608,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 144
-        y: 240
+        y: 288
         width: 48
         height: 48
       alignment: 0
@@ -617,7 +629,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 240
+        y: 288
         width: 48
         height: 48
       alignment: 0
@@ -638,7 +650,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 240
+        y: 288
         width: 48
         height: 48
       alignment: 0
@@ -659,7 +671,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 192
+        y: 240
         width: 48
         height: 48
       alignment: 0
@@ -680,7 +692,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 192
+        y: 240
         width: 48
         height: 48
       alignment: 0
@@ -701,7 +713,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 192
+        y: 240
         width: 48
         height: 48
       alignment: 0
@@ -722,7 +734,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 144
-        y: 192
+        y: 240
         width: 48
         height: 48
       alignment: 0
@@ -743,7 +755,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 144
+        y: 192
         width: 48
         height: 48
       alignment: 0
@@ -764,7 +776,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 144
+        y: 192
         width: 48
         height: 48
       alignment: 0
@@ -785,7 +797,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 144
+        y: 192
         width: 48
         height: 48
       alignment: 0
@@ -806,7 +818,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 144
-        y: 144
+        y: 192
         width: 48
         height: 48
       alignment: 0
@@ -826,7 +838,7 @@ TextureImporter:
       name: CowboySprites_28
       rect:
         serializedVersion: 2
-        x: 192
+        x: 0
         y: 144
         width: 48
         height: 48
@@ -847,7 +859,7 @@ TextureImporter:
       name: CowboySprites_29
       rect:
         serializedVersion: 2
-        x: 240
+        x: 48
         y: 144
         width: 48
         height: 48
@@ -868,8 +880,8 @@ TextureImporter:
       name: CowboySprites_30
       rect:
         serializedVersion: 2
-        x: 0
-        y: 96
+        x: 96
+        y: 144
         width: 48
         height: 48
       alignment: 0
@@ -889,8 +901,8 @@ TextureImporter:
       name: CowboySprites_31
       rect:
         serializedVersion: 2
-        x: 48
-        y: 96
+        x: 144
+        y: 144
         width: 48
         height: 48
       alignment: 0
@@ -910,8 +922,8 @@ TextureImporter:
       name: CowboySprites_32
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
+        x: 192
+        y: 144
         width: 48
         height: 48
       alignment: 0
@@ -931,8 +943,8 @@ TextureImporter:
       name: CowboySprites_33
       rect:
         serializedVersion: 2
-        x: 144
-        y: 96
+        x: 240
+        y: 144
         width: 48
         height: 48
       alignment: 0
@@ -953,7 +965,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 48
+        y: 96
         width: 48
         height: 48
       alignment: 0
@@ -974,7 +986,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 48
+        y: 96
         width: 48
         height: 48
       alignment: 0
@@ -995,7 +1007,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 48
+        y: 96
         width: 48
         height: 48
       alignment: 0
@@ -1016,7 +1028,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 144
-        y: 48
+        y: 96
         width: 48
         height: 48
       alignment: 0
@@ -1036,7 +1048,7 @@ TextureImporter:
       name: CowboySprites_38
       rect:
         serializedVersion: 2
-        x: 192
+        x: 0
         y: 48
         width: 48
         height: 48
@@ -1057,7 +1069,7 @@ TextureImporter:
       name: CowboySprites_39
       rect:
         serializedVersion: 2
-        x: 240
+        x: 48
         y: 48
         width: 48
         height: 48
@@ -1078,8 +1090,8 @@ TextureImporter:
       name: CowboySprites_40
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 96
+        y: 48
         width: 48
         height: 48
       alignment: 0
@@ -1099,8 +1111,8 @@ TextureImporter:
       name: CowboySprites_41
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
+        x: 144
+        y: 48
         width: 48
         height: 48
       alignment: 0
@@ -1120,8 +1132,8 @@ TextureImporter:
       name: CowboySprites_42
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
+        x: 192
+        y: 48
         width: 48
         height: 48
       alignment: 0
@@ -1141,8 +1153,8 @@ TextureImporter:
       name: CowboySprites_43
       rect:
         serializedVersion: 2
-        x: 144
-        y: 0
+        x: 240
+        y: 48
         width: 48
         height: 48
       alignment: 0
@@ -1154,6 +1166,90 @@ TextureImporter:
       bones: []
       spriteID: c67faee0b607f9de0800000000000000
       internalID: -1324216160309545108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowboySprites_44
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c5b773142e1805c0800000000000000
+      internalID: -4249113108129794624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowboySprites_45
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f96d2d28afbe93b0800000000000000
+      internalID: -5503750965566805519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowboySprites_46
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8990646403a5e2db0800000000000000
+      internalID: -4814811788228556392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CowboySprites_47
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66277832933957120800000000000000
+      internalID: 2410995049145266790
       vertices: []
       indices: 
       edges: []

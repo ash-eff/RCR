@@ -12,9 +12,10 @@ public class Enemy : MonoBehaviour
     public LayerMask visionLayers;
     public Sprite minimapImage;
     private PlayerManager player;
-    private SpriteRenderer enemySprite;
+    public SpriteRenderer enemySprite;
     private SpriteRenderer minimapSprite;
     public NavMeshAgent agent;
+    public BulletPatterns bulletPatterns;
     
     public float maxAggroRadius;
     public float minAggroRadius;
@@ -43,9 +44,9 @@ public class Enemy : MonoBehaviour
     {
         //if(OnEnemyDeath == null) OnEnemyDeath = new UnityEvent();
         agent = GetComponent<NavMeshAgent>();
-        agent.acceleration = moveSpeed;
+        agent.speed = moveSpeed;
         //enemySpawner = FindObjectOfType<EnemySpawner>();
-        enemySprite = transform.Find("Enemy_Sprite").GetComponent<SpriteRenderer>();
+        //enemySprite = transform.Find("Enemy_Sprite").GetComponent<SpriteRenderer>();
         minimapSprite = transform.Find("Enemy_Minimap_Sprite").GetComponent<SpriteRenderer>();
         minimapSprite.sprite = minimapImage;
         matWhite = Resources.Load("WhiteFlash", typeof(Material)) as Material; 
@@ -86,10 +87,37 @@ public class Enemy : MonoBehaviour
     {
         
     }
+    
+    private void TakeDamage(int dmgAmount)
+    {
+        health -= dmgAmount;
+        if (health <= 0)
+        {
+            SwapState(enemyExplodeState);
+        }
+    }
 
     public virtual void EnemyDeath()
     {
-        Destroy(gameObject);
+        
+    }
+    
+    private void SwapMaterialToDefault()
+    {
+        enemySprite.material = matDefault;
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerBullet"))
+        {
+            TakeDamage(other.GetComponent<Projectile>().damageAmount);
+            Destroy(other.gameObject);
+            
+            enemySprite.material = matWhite;
+            
+            Invoke("SwapMaterialToDefault", .1f);
+        }
     }
 
     #endregion
