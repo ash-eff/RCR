@@ -87,6 +87,11 @@ public class Enemy : MonoBehaviour
     {
         
     }
+
+    public virtual void Attack()
+    {
+        
+    }
     
     private void TakeDamage(int dmgAmount)
     {

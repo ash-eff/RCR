@@ -23,7 +23,7 @@ public class EnemyMoveState : State<Enemy>
         if (enemy.IsPlayerIsInRange())
         {
             if (enemy.IsPlayerInAttackRange())
-                enemy.EnemyExplode();
+                enemy.Attack();
             else
                 enemy.MoveToPosition(enemy.PlayerLocation);
         }

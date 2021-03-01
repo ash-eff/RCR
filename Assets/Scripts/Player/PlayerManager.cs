@@ -76,4 +76,20 @@ public class PlayerManager : MonoBehaviour
 	{
 		//stateMachine.ChangeState(playerBaseState);
 	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("DigSite"))
+		{
+			Debug.Log("Can Dig");
+		}
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.CompareTag("DigSite"))
+		{
+			Debug.Log("Can No Longer Dig");
+		}
+	}
 }
